@@ -1,7 +1,7 @@
 {   "parent": "block/block",
   "textures": {
     "particle": "galacticraft:block/moon_dirt",
-    "top": "galacticraft:block/moon_dirt_path_top",
+    "top": "galacticraft:block/moon_stone",
     "side": "galacticraft:block/moon_dirt_path_side",
     "bottom": "galacticraft:block/moon_dirt"
   },

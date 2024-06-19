@@ -312,10 +312,10 @@ public class GCTranslationProvider extends TranslationProvider {
         this.add(MachineStatus.PARTIALLY_BLOCKED, "Partially Blocked");
         this.add(MachineStatus.RAIN, "Rain");
         this.add(MachineStatus.SEALED, "Sealed");
-        this.add(MachineStatus.WARMING_UP, "Warming up");
-        this.add(MachineStatus.NOT_ENOUGH_FUEL, "Not enough fuel");
-        this.add(MachineStatus.NO_ROCKET, "No rocket");
-        this.add(MachineStatus.ROCKET_IS_FULL, "Rocket is full");
+        this.add(MachineStatus.WARMING_UP, "Warming Up");
+        this.add(MachineStatus.NOT_ENOUGH_FUEL, "Not Enough Fuel");
+        this.add(MachineStatus.NO_ROCKET, "No Rocket");
+        this.add(MachineStatus.ROCKET_IS_FULL, "Rocket is Full");
 
         this.add(CelestialSelection.BACK, "Back");
         this.add(CelestialSelection.CANCEL, "Cancel");
@@ -361,13 +361,13 @@ public class GCTranslationProvider extends TranslationProvider {
 
         this.add(Ui.COLLECTING, "Collecting: %s/s");
         this.add(Ui.CURRENT_OXYGEN, "Oxygen: %s");
-        this.add(Ui.GJT, "%sGj/t");
+        this.add(Ui.GJT, "%s gJ/t");
         this.add(Ui.MAX_OXYGEN, "Maximum Oxygen: %s");
         this.add(Ui.MACHINE_STATUS, "Status: ");
         this.add(Ui.OXYGEN_TANK_LEVEL, "Oxygen Tank %s: %s/%s");
         this.add(Ui.ROCKET_FUEL, "Fuel:");
         this.add(Ui.ROCKET_FULL, "% full");
-        this.add(Ui.ROCKET_NO_FUEL, "No fuel");
+        this.add(Ui.ROCKET_NO_FUEL, "No Fuel");
         this.add(Ui.LANDER_VELOCITY, "Entry Velocity");
         this.add(Ui.LANDER_VELOCITYU, "m/s");
         this.add(Ui.LANDER_WARNING_2, "Hold \"");
@@ -376,7 +376,7 @@ public class GCTranslationProvider extends TranslationProvider {
         this.add(Ui.SMALL_STEP, "Taking one small step");
         this.add(Ui.GIANT_LEAP, "Taking one giant leap");
         this.add(Ui.PREPARE_FOR_ENTRY, "Prepare for entry!");
-        this.add(Ui.TRAVELLING_TO, "Travelling to: ");
+        this.add(Ui.TRAVELLING_TO, "Traveling to: ");
     }
 
     protected void blockDesc(Block block, String translation) {
