@@ -20,27 +20,31 @@
  * SOFTWARE.
  */
 
-package dev.galacticraft.mod.content.block.environment;
+package dev.galacticraft.mod.util;
 
-import dev.galacticraft.mod.util.Translations;
-import dev.galacticraft.mod.util.TooltipUtil;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.block.LanternBlock;
+import net.minecraft.network.chat.Style;
 
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
-public class GlowstoneLanternBlock extends LanternBlock {
-    public GlowstoneLanternBlock(Properties settings) {
-        super(settings);
-    }
+public class TooltipUtil {
+    private static final Component PRESS_SHIFT = Component.translatable(Translations.Tooltip.PRESS_SHIFT).withStyle(ChatFormatting.DARK_GRAY);
 
-    @Override
-    public void appendHoverText(ItemStack stack, @Nullable BlockGetter world, List<Component> tooltip, TooltipFlag options) {
-        TooltipUtil.lshiftTooltip(Translations.Tooltip.GLOWSTONE_LANTERN, tooltip);
-        super.appendHoverText(stack, world, tooltip, options);
+    private TooltipUtil() {}
+
+    @NotNull
+    public static void lshiftTooltip(String resourceId, List<Component> list) {
+        Component description = Component.translatable(resourceId);
+        if (Screen.hasShiftDown()) {
+            Minecraft minecraft = Minecraft.getInstance();
+            list.addAll(minecraft.font.getSplitter().splitLines(description, 150, Style.EMPTY).stream().map(formattedText -> Component.literal(formattedText.getString()).withStyle(ChatFormatting.GRAY)).toList());
+        } else {
+            list.add(PRESS_SHIFT);
+        }
     }
 }
+ 

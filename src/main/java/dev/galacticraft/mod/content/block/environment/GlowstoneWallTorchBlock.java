@@ -23,9 +23,8 @@
 package dev.galacticraft.mod.content.block.environment;
 
 import com.mojang.serialization.MapCodec;
-import dev.galacticraft.mod.Constant;
 import dev.galacticraft.mod.util.Translations;
-import net.minecraft.client.gui.screens.Screen;
+import dev.galacticraft.mod.util.TooltipUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
@@ -36,6 +35,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.WallTorchBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
+import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class GlowstoneWallTorchBlock extends WallTorchBlock {
@@ -49,11 +49,8 @@ public class GlowstoneWallTorchBlock extends WallTorchBlock {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, BlockGetter blockView, List<Component> list, TooltipFlag tooltipContext) {
-        if (Screen.hasShiftDown()) {
-            list.add(Component.translatable(Translations.Tooltip.GLOWSTONE_TORCH).setStyle(Constant.Text.Color.GRAY_STYLE));
-        } else {
-            list.add(Component.translatable(Translations.Tooltip.PRESS_SHIFT).setStyle(Constant.Text.Color.GRAY_STYLE));
-        }
+    public void appendHoverText(ItemStack stack, @Nullable BlockGetter world, List<Component> tooltip, TooltipFlag options) {
+        TooltipUtil.lshiftTooltip(Translations.Tooltip.GLOWSTONE_TORCH, tooltip);
+        super.appendHoverText(stack, world, tooltip, options);
     }
 }

@@ -22,10 +22,9 @@
 
 package dev.galacticraft.mod.content.item;
 
-import dev.galacticraft.mod.Constant;
 import dev.galacticraft.mod.util.Translations;
+import dev.galacticraft.mod.util.TooltipUtil;
 import net.minecraft.Util;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -43,6 +42,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.Property;
 
+import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class StandardWrenchItem extends Item {
@@ -84,11 +84,8 @@ public class StandardWrenchItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, Level world, List<Component> lines, TooltipFlag context) {
-        if (Screen.hasShiftDown()) {
-            lines.add(Component.translatable(Translations.Tooltip.STANDARD_WRENCH).setStyle(Constant.Text.Color.GRAY_STYLE));
-        } else {
-            lines.add(Component.translatable(Translations.Tooltip.PRESS_SHIFT).setStyle(Constant.Text.Color.GRAY_STYLE));
-        }
+    public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag options) {
+        TooltipUtil.lshiftTooltip(Translations.Tooltip.STANDARD_WRENCH, tooltip);
+        super.appendHoverText(stack, world, tooltip, options);
     }
 }

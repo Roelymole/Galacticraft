@@ -22,13 +22,9 @@
 
 package dev.galacticraft.mod.content.block;
 
-import dev.galacticraft.mod.util.Translations;
-import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.Screen;
+import dev.galacticraft.mod.util.TooltipUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -37,25 +33,19 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.Nullable;
 
+import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class GCBlock extends Block {
-    private static final Component PRESS_SHIFT = Component.translatable(Translations.Tooltip.PRESS_SHIFT).withStyle(ChatFormatting.GRAY);
-
     public GCBlock(Properties properties) {
         super(properties);
     }
 
     @Override
-    public void appendHoverText(ItemStack itemStack, @Nullable BlockGetter blockGetter, List<Component> tooltip, TooltipFlag tooltipFlag) {
-        Component description = Component.translatable(getDescriptionId() + ".description");
-        if (Screen.hasShiftDown()) {
-            tooltip.addAll(Minecraft.getInstance().font.getSplitter().splitLines(description, 150, Style.EMPTY).stream().map(formattedText -> Component.literal(formattedText.getString()).withStyle(ChatFormatting.GRAY)).toList());
-        } else {
-            tooltip.add(PRESS_SHIFT);
-        }
+    public void appendHoverText(ItemStack stack, @Nullable BlockGetter world, List<Component> tooltip, TooltipFlag options) {
+        TooltipUtil.lshiftTooltip(getDescriptionId() + ".description", tooltip);
+        super.appendHoverText(stack, world, tooltip, options);
     }
 
     @Override
