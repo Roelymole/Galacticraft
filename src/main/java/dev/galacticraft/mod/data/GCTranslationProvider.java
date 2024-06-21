@@ -232,7 +232,7 @@ public class GCTranslationProvider extends TranslationProvider {
         this.add(Tooltip.GLOWSTONE_TORCH, "Glowstone Torches are best used to light areas when there is no oxygen for wood torches to burn.");
         this.add(Tooltip.INFINITE, "Infinite");
         this.add(Tooltip.OXYGEN_REMAINING, "Oxygen Remaining: %s");
-        this.add(Tooltip.PRESS_SHIFT, "Press LSHIFT for more info");
+        this.add(Tooltip.PRESS_SHIFT, "Press LSHIFT for more information.");
         this.add(Tooltip.STANDARD_WRENCH, "Most Galacticraft machines can be rotated by right-clicking with the Standard Wrench.");
         this.add(Tooltip.TIME_UNTIL_COOL, "Time Until Cool: %ss");
 

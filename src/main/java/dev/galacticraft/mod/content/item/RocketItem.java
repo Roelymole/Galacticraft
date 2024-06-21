@@ -63,15 +63,16 @@ public class RocketItem extends Item {
 
     @Override
     public InteractionResult useOn(UseOnContext context) {
-        if (!context.getLevel().isClientSide && context.getLevel().getBlockState(context.getClickedPos()).getBlock() == GCBlocks.ROCKET_LAUNCH_PAD
-                && context.getLevel().getBlockState(context.getClickedPos()).getValue(AbstractLaunchPad.PART) != AbstractLaunchPad.Part.NONE) {
-            BlockPos pos = new BlockPos(context.getClickedPos()).offset(AbstractLaunchPad.partToCenterPos(context.getLevel().getBlockState(context.getClickedPos()).getValue(AbstractLaunchPad.PART)));
-            assert context.getLevel().getBlockState(pos).getBlock() == GCBlocks.ROCKET_LAUNCH_PAD;
-            LaunchPadBlockEntity pad = (LaunchPadBlockEntity) context.getLevel().getBlockEntity(pos);
+        Level level = context.getLevel();
+        if (!level.isClientSide && level.getBlockState(context.getClickedPos()).getBlock() == GCBlocks.ROCKET_LAUNCH_PAD
+                && level.getBlockState(context.getClickedPos()).getValue(AbstractLaunchPad.PART) != AbstractLaunchPad.Part.NONE) {
+            BlockPos pos = new BlockPos(context.getClickedPos()).offset(AbstractLaunchPad.partToCenterPos(level.getBlockState(context.getClickedPos()).getValue(AbstractLaunchPad.PART)));
+            assert level.getBlockState(pos).getBlock() == GCBlocks.ROCKET_LAUNCH_PAD;
+            LaunchPadBlockEntity pad = (LaunchPadBlockEntity) level.getBlockEntity(pos);
             if (pad.hasDockedEntity()) return InteractionResult.FAIL;
 
-            if (context.getLevel() instanceof ServerLevel) {
-                RocketEntity rocket = new RocketEntity(GCEntityTypes.ROCKET, context.getLevel());
+            if (level instanceof ServerLevel) {
+                RocketEntity rocket = new RocketEntity(GCEntityTypes.ROCKET, level);
                 CompoundTag tag = context.getItemInHand().getTag();
                 RocketData data = RocketData.fromNbt(tag);
                 rocket.setData(data);
@@ -81,7 +82,7 @@ public class RocketItem extends Item {
                 if (tag.contains("creative")) {
                     rocket.setFuel(Long.MAX_VALUE);
                 }
-                context.getLevel().addFreshEntity(rocket);
+                level.addFreshEntity(rocket);
 
                 if (!context.getPlayer().isCreative()) {
                     ItemStack stack = context.getPlayer().getItemInHand(context.getHand()).copy();

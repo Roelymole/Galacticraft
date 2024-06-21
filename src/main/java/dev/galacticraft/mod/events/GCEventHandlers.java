@@ -23,6 +23,7 @@
 package dev.galacticraft.mod.events;
 
 import dev.galacticraft.api.universe.celestialbody.CelestialBody;
+import dev.galacticraft.api.universe.celestialbody.CelestialBodyConfig;
 import dev.galacticraft.api.universe.celestialbody.landable.Landable;
 import dev.galacticraft.api.universe.celestialbody.landable.teleporter.CelestialTeleporter;
 import dev.galacticraft.impl.rocket.RocketDataImpl;
@@ -81,7 +82,7 @@ public class GCEventHandlers {
 
     public static Player.BedSleepingProblem sleepInSpace(Player player, BlockPos sleepingPos) {
         Level level = player.level();
-        CelestialBody body = CelestialBody.getByDimension(level).orElse(null);
+        CelestialBody<?, ?> body = CelestialBody.getByDimension(level).orElse(null);
         if (body != null && level.getBlockState(sleepingPos).getBlock() instanceof BedBlock && !body.atmosphere().breathable()) {
             player.sendSystemMessage(Component.translatable(Translations.Chat.BED_FAIL));
             return Player.BedSleepingProblem.NOT_POSSIBLE_HERE;
@@ -113,7 +114,8 @@ public class GCEventHandlers {
     public static void onPlayerChangePlanets(MinecraftServer server, ServerPlayer player, CelestialBody<?, ?> body, CelestialBody<?, ?> fromBody) {
         if (body.type() instanceof Landable landable && player.galacticraft$isCelestialScreenActive() && (player.galacticraft$getCelestialScreenState() == null || player.galacticraft$getCelestialScreenState().canTravel(server.registryAccess(), fromBody, body))) {
             player.galacticraft$closeCelestialScreen();
-            ((CelestialTeleporter) landable.teleporter(body.config()).value()).onEnterAtmosphere(server.getLevel(landable.world(body.config())), player, body, fromBody);
+            CelestialBodyConfig config = body.config();
+            ((CelestialTeleporter<?, ?>) landable.teleporter(config).value()).onEnterAtmosphere(server.getLevel(landable.world(config)), player, body, fromBody);
         } else {
             player.connection.disconnect(Component.literal("Invalid planet teleport packet received."));
         }

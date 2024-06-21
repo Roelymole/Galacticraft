@@ -391,7 +391,7 @@ public class RocketWorkbenchScreen extends AbstractContainerScreen<RocketWorkben
         return mouseX >= x && mouseY >= y && mouseX <= x + width && mouseY <= y + height;
     }
 
-    private RocketWorkbenchBlockEntity.RecipeSelection getSelection() {
+    private RocketWorkbenchBlockEntity.RecipeSelection<?> getSelection() {
         return switch (openTab.type) {
             case CONE -> this.menu.cone;
             case BODY -> this.menu.body;

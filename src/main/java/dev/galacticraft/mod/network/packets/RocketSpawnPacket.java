@@ -54,7 +54,8 @@ public record RocketSpawnPacket(EntityType<?> type, int id, UUID uuid, double x,
 
         entity.setData(data);
 
-        Minecraft.getInstance().level.addEntity(entity);
+        Minecraft minecraft = Minecraft.getInstance();
+        minecraft.level.addEntity(entity);
     }
 
     @Override

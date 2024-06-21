@@ -33,7 +33,7 @@ import java.util.List;
 @Mixin(ModelProvider.class)
 public class ModelProviderMixin {
     @Redirect(method = "run", at = @At(value = "INVOKE", target = "Ljava/util/List;isEmpty()Z"))
-    private boolean fixGcModelGen(List instance) {
+    private boolean fixGcModelGen(List<?> instance) {
         if ((Object) this instanceof GCModelProvider)
             return true;
         return instance.isEmpty();

@@ -49,6 +49,7 @@ public record ResetThirdPersonPacket() implements GCPacket {
 
     @Override
     public void handle(Player player, PacketSender responseSender) {
-        Minecraft.getInstance().options.setCameraType(GCClientPlayer.get((LocalPlayer) player).getCameraType());
+        Minecraft minecraft = Minecraft.getInstance();
+        minecraft.options.setCameraType(GCClientPlayer.get((LocalPlayer) player).getCameraType());
     }
 }
