@@ -1,0 +1,10 @@
+{
+  "parent": "galacticraft:block/template_stairs",
+  "textures": {
+    "top": "galacticraft:block/tin_decoration_slab",
+    "bottom": "galacticraft:block/tin_decoration",
+    "front": "galacticraft:block/tin_decoration_slab",
+    "left": "galacticraft:block/tin_decoration_stairs_top_right",
+    "right": "galacticraft:block/tin_decoration_stairs_top_left"
+  }
+}

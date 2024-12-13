@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "galacticraft:block/titanium_decoration",
+    "side": "galacticraft:block/titanium_decoration_slab",
+    "top": "galacticraft:block/titanium_decoration"
+  }
+}
