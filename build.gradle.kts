@@ -257,6 +257,8 @@ tasks.processResources {
         expand("version" to project.version)
     }
 
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
     // Minify json resources (https://stackoverflow.com/a/41029113)
     doLast {
         val jsonSlurper = groovy.json.JsonSlurper().setType(groovy.json.JsonParserType.LAX)

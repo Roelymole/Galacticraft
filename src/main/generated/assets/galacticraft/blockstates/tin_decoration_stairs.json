@@ -17,7 +17,8 @@
       "model": "galacticraft:block/tin_decoration_stairs_outer"
     },
     "facing=east,half=bottom,shape=straight": {
-      "model": "galacticraft:block/tin_decoration_stairs"
+      "model": "galacticraft:block/tin_decoration_stairs",
+      "textures": { "#top": "galacticraft:block/tin_decoration_stairs_left" }
     },
     "facing=east,half=top,shape=inner_left": {
       "model": "galacticraft:block/tin_decoration_stairs_inner",
@@ -68,6 +69,7 @@
     },
     "facing=north,half=bottom,shape=straight": {
       "model": "galacticraft:block/tin_decoration_stairs",
+      "textures": { "#top": "galacticraft:block/tin_decoration_slab_top" },
       "uvlock": true,
       "y": 270
     },
@@ -172,6 +174,7 @@
     },
     "facing=west,half=bottom,shape=straight": {
       "model": "galacticraft:block/tin_decoration_stairs",
+      "textures": { "#top": "galacticraft:block/tin_decoration_stairs_right" },
       "uvlock": true,
       "y": 180
     },
