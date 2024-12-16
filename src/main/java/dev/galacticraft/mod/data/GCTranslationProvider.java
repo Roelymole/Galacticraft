@@ -93,7 +93,7 @@ public class GCTranslationProvider extends TranslationProvider {
         this.block(GCBlocks.CRUDE_OIL, "Crude Oil");
         this.block(GCBlocks.FUEL, "Fuel");
         this.block(GCBlocks.SULFURIC_ACID, "Sulfuric Acid");
-        this.block(GCBlocks.LIQUID_OXYGEN, "Liquid Oxygen");
+        // this.block(GCBlocks.LIQUID_OXYGEN, "Liquid Oxygen");
 
         // DECORATION BLOCKS
         this.decorationSet(GCBlocks.ALUMINUM_DECORATION, "Aluminum Decoration");
