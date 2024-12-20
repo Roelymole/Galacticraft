@@ -28,6 +28,7 @@ import dev.galacticraft.mod.api.block.MultiBlockPart;
 import dev.galacticraft.mod.content.GCBlocks;
 import dev.galacticraft.mod.content.block.entity.CryogenicChamberBlockEntity;
 import dev.galacticraft.mod.particle.GCParticleTypes;
+import dev.galacticraft.mod.util.Translations;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -35,6 +36,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Player.BedSleepingProblem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -60,6 +62,7 @@ public class CryogenicChamberBlock extends BaseEntityBlock implements MultiBlock
     public static final MapCodec<CryogenicChamberBlock> CODEC = simpleCodec(CryogenicChamberBlock::new);
     private static final List<BlockPos> PARTS = List.of(new BlockPos(0, 1, 0), new BlockPos(0, 2, 0));
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+    protected static final VoxelShape SHAPE = Shapes.box(0.0, 0.0, 0.0, 1.0, 3.0, 1.0);
 
     public CryogenicChamberBlock(Properties properties) {
         super(properties);
@@ -80,6 +83,11 @@ public class CryogenicChamberBlock extends BaseEntityBlock implements MultiBlock
     @Override
     public RenderShape getRenderShape(BlockState blockState) {
         return RenderShape.MODEL;
+    }
+
+    @Override
+    public VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
+        return SHAPE;
     }
 
     @Override
@@ -188,12 +196,21 @@ public class CryogenicChamberBlock extends BaseEntityBlock implements MultiBlock
             player.beginCryoSleep();
 
             player.startSleepInBed(basePos).ifLeft(problem -> {
-                if (problem.getMessage() != null) player.displayClientMessage(problem.getMessage(), true);
+                switch(problem) {
+                    case BedSleepingProblem.OBSTRUCTED:
+                        player.displayClientMessage(Component.translatable(Translations.Chat.CHAMBER_OBSTRUCTED), true);
+                        break;
+                    case BedSleepingProblem.TOO_FAR_AWAY:
+                        player.displayClientMessage(Component.translatable(Translations.Chat.CHAMBER_TOO_FAR_AWAY), true);
+                        break;
+                    default:
+                        player.displayClientMessage(problem.getMessage(), true);
+                }
 
                 player.endCryoSleep();
             });
         } else {
-            player.displayClientMessage(Component.literal("The chamber is way to hot right now! It needs " + player.getCryogenicChamberCooldown() + " seconds to cool down before I sleep again."), false);
+            player.displayClientMessage(Component.translatable(Translations.Chat.CHAMBER_HOT, player.getCryogenicChamberCooldown()), false);
         }
 
         return InteractionResult.SUCCESS;
