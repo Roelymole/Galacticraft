@@ -36,7 +36,6 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.Player.BedSleepingProblem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -47,6 +46,7 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
@@ -62,11 +62,12 @@ public class CryogenicChamberBlock extends BaseEntityBlock implements MultiBlock
     public static final MapCodec<CryogenicChamberBlock> CODEC = simpleCodec(CryogenicChamberBlock::new);
     private static final List<BlockPos> PARTS = List.of(new BlockPos(0, 1, 0), new BlockPos(0, 2, 0));
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+    public static final BooleanProperty OCCUPIED = BlockStateProperties.OCCUPIED;
     protected static final VoxelShape SHAPE = Shapes.box(0.0, 0.0, 0.0, 1.0, 3.0, 1.0);
 
     public CryogenicChamberBlock(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.getStateDefinition().any().setValue(FACING, Direction.NORTH));
+        this.registerDefaultState(this.getStateDefinition().any().setValue(FACING, Direction.NORTH).setValue(OCCUPIED, false));
     }
 
     @Override
@@ -92,7 +93,7 @@ public class CryogenicChamberBlock extends BaseEntityBlock implements MultiBlock
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING);
+        builder.add(FACING, OCCUPIED);
     }
 
     @Override
@@ -135,12 +136,11 @@ public class CryogenicChamberBlock extends BaseEntityBlock implements MultiBlock
 
     @Override
     public BlockState playerWillDestroy(Level level, BlockPos blockPos, BlockState blockState, Player player) {
-        BlockState state = super.playerWillDestroy(level, blockPos, blockState, player);
         for (var otherPart : this.getOtherParts(blockState)) {
             otherPart = otherPart.immutable().offset(blockPos);
             level.destroyBlock(otherPart, false);
         }
-        return state;
+        return super.playerWillDestroy(level, blockPos, blockState, player);
     }
 
     @Override
@@ -156,15 +156,15 @@ public class CryogenicChamberBlock extends BaseEntityBlock implements MultiBlock
     }
 
     @Override
-    public void wasExploded(Level world, BlockPos pos, Explosion explosion) {
-        for (BlockPos part : this.getOtherParts(world.getBlockState(pos))) {
-            part = pos.immutable().offset(part);
-            if (!(world.getBlockEntity(part) instanceof MultiBlockPart)) {
+    public void wasExploded(Level level, BlockPos blockPos, Explosion explosion) {
+        for (BlockPos otherPart : this.getOtherParts(level.getBlockState(blockPos))) {
+            otherPart = otherPart.immutable().offset(blockPos);
+            if (!(level.getBlockEntity(otherPart) instanceof MultiBlockPart)) {
                 continue;
             }
-            world.removeBlock(part, false);
+            level.destroyBlock(otherPart, false);
         }
-        super.wasExploded(world, pos, explosion);
+        super.wasExploded(level, blockPos, explosion);
     }
 
     @Override
@@ -192,15 +192,18 @@ public class CryogenicChamberBlock extends BaseEntityBlock implements MultiBlock
     public InteractionResult multiBlockUseWithoutItem(BlockState baseState, Level level, BlockPos basePos, Player player) {
         if (level.isClientSide()) return InteractionResult.CONSUME;
 
-        if(player.getCryogenicChamberCooldown() == 0) {
+        if (baseState.getValue(OCCUPIED).booleanValue()) {
+            player.displayClientMessage(Component.translatable(Translations.Chat.CHAMBER_OCCUPIED), true);
+        } else if (player.getCryogenicChamberCooldown() == 0) {
             player.beginCryoSleep();
+            level.setBlockAndUpdate(basePos, baseState.setValue(OCCUPIED, true));
 
             player.startSleepInBed(basePos).ifLeft(problem -> {
                 switch(problem) {
-                    case BedSleepingProblem.OBSTRUCTED:
+                    case Player.BedSleepingProblem.OBSTRUCTED:
                         player.displayClientMessage(Component.translatable(Translations.Chat.CHAMBER_OBSTRUCTED), true);
                         break;
-                    case BedSleepingProblem.TOO_FAR_AWAY:
+                    case Player.BedSleepingProblem.TOO_FAR_AWAY:
                         player.displayClientMessage(Component.translatable(Translations.Chat.CHAMBER_TOO_FAR_AWAY), true);
                         break;
                     default:
@@ -208,6 +211,7 @@ public class CryogenicChamberBlock extends BaseEntityBlock implements MultiBlock
                 }
 
                 player.endCryoSleep();
+                level.setBlockAndUpdate(basePos, baseState.setValue(OCCUPIED, false));
             });
         } else {
             player.displayClientMessage(Component.translatable(Translations.Chat.CHAMBER_HOT, player.getCryogenicChamberCooldown()), false);
