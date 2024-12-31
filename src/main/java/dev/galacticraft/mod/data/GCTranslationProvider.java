@@ -560,6 +560,7 @@ public class GCTranslationProvider extends TranslationProvider {
         this.entity(GCEntityTypes.GAZER, "Gazer");
         this.entity(GCEntityTypes.GREY, "Grey");
         this.entity(GCEntityTypes.LANDER, "Lander");
+        this.entity(GCEntityTypes.MOON_VILLAGER, "Moon Villager");
         this.entity(GCEntityTypes.OLI_GRUB, "Oli Grub");
         this.entity(GCEntityTypes.PARACHEST, "Parachest");
         this.entity(GCEntityTypes.ROCKET, "Rocket");
@@ -615,6 +616,8 @@ public class GCTranslationProvider extends TranslationProvider {
         this.add(Chat.CHAMBER_OCCUPIED, "This cryogenic chamber is occupied");
         this.add(Chat.CHAMBER_TOO_FAR_AWAY, "You may not rest now; the cryogenic chamber is too far away");
         this.add(Chat.ROCKET_WARNING, "Press again to launch.");
+
+        this.add(Subtitles.THROW_METEOR_CHUNK, "Meteor Chunk flies");
 
         this.add(RegistryDebug.DUMP, "Dumped: %s");
         this.add(RegistryDebug.ID, "%s - %s: %s");
