@@ -34,6 +34,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.TickRateManager;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -63,7 +64,8 @@ public class CryogenicChamberBlock extends BaseEntityBlock implements MultiBlock
     private static final List<BlockPos> PARTS = List.of(new BlockPos(0, 1, 0), new BlockPos(0, 2, 0));
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final BooleanProperty OCCUPIED = BlockStateProperties.OCCUPIED;
-    protected static final VoxelShape SHAPE = Shapes.box(0.0, 0.0, 0.0, 1.0, 3.0, 1.0);
+    private static final VoxelShape SHAPE = Shapes.box(0, 0, 0, 1, 3, 1);
+    public static final TickRateManager TICKS = new TickRateManager();
 
     public CryogenicChamberBlock(Properties properties) {
         super(properties);
@@ -194,7 +196,7 @@ public class CryogenicChamberBlock extends BaseEntityBlock implements MultiBlock
 
         if (baseState.getValue(OCCUPIED).booleanValue()) {
             player.displayClientMessage(Component.translatable(Translations.Chat.CHAMBER_OCCUPIED), true);
-        } else if (player.getCryogenicChamberCooldown() == 0) {
+        } else if (player.isCreative() || player.getCryogenicChamberCooldown() == 0) {
             player.beginCryoSleep();
             level.setBlockAndUpdate(basePos, baseState.setValue(OCCUPIED, true));
 
@@ -214,7 +216,7 @@ public class CryogenicChamberBlock extends BaseEntityBlock implements MultiBlock
                 level.setBlockAndUpdate(basePos, baseState.setValue(OCCUPIED, false));
             });
         } else {
-            player.displayClientMessage(Component.translatable(Translations.Chat.CHAMBER_HOT, player.getCryogenicChamberCooldown()), false);
+            player.displayClientMessage(Component.translatable(Translations.Chat.CHAMBER_HOT, (int)(player.getCryogenicChamberCooldown() / TICKS.tickrate())), false);
         }
 
         return InteractionResult.SUCCESS;
