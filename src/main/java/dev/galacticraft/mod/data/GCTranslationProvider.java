@@ -72,6 +72,58 @@ public class GCTranslationProvider extends TranslationProvider {
         this.add(ItemGroup.ITEMS, "Galacticraft Items");
         this.add(ItemGroup.MACHINES, "Galacticraft Machines");
 
+        this.block(GCBlocks.ASTEROID_ROCK_1, "Asteroid Rock");
+        this.block(GCBlocks.ASTEROID_ROCK_2, "Asteroid Rock");
+
+        // VENUS NATURAL
+        this.block(GCBlocks.SOFT_VENUS_ROCK, "Soft Venus Rock");
+        this.block(GCBlocks.HARD_VENUS_ROCK, "Hard Venus Rock");
+        this.block(GCBlocks.SCORCHED_VENUS_ROCK, "Scorched Venus Rock");
+        this.block(GCBlocks.VOLCANIC_ROCK, "Volcanic Rock");
+        this.block(GCBlocks.PUMICE, "Pumice");
+        this.block(GCBlocks.VAPOR_SPOUT, "Vapor Spout");
+
+        // MISC DECOR
+        this.block(GCBlocks.WALKWAY, "Walkway");
+        this.block(GCBlocks.FLUID_PIPE_WALKWAY, "Fluid Pipe Walkway");
+        this.block(GCBlocks.WIRE_WALKWAY, "Wire Walkway");
+        this.block(GCBlocks.TIN_LADDER, "Tin Ladder");
+        this.block(GCBlocks.IRON_GRATING, "Iron Grating");
+
+        // SPECIAL
+        this.block(GCBlocks.ALUMINUM_WIRE, "Aluminum Wire");
+        this.block(GCBlocks.SEALABLE_ALUMINUM_WIRE, "Sealable Aluminum Wire");
+        this.block(GCBlocks.HEAVY_SEALABLE_ALUMINUM_WIRE, "Heavy Sealable Aluminum Wire");
+        this.block(GCBlocks.GLASS_FLUID_PIPE, "Glass Fluid Pipe");
+        this.block(GCBlocks.FUELING_PAD, "Fueling Pad");
+        this.block(GCBlocks.ROCKET_LAUNCH_PAD, "Rocket Launch Pad");
+        this.block(GCBlocks.ROCKET_WORKBENCH, "Rocket Workbench");
+        this.block(GCBlocks.PARACHEST, "Parachest");
+
+        // LIGHT PANELS
+        this.block(GCBlocks.SQUARE_LIGHT_PANEL, "Light Panel (Square)");
+        this.block(GCBlocks.SPOTLIGHT_LIGHT_PANEL, "Light Panel (Spotlight)");
+        this.block(GCBlocks.LINEAR_LIGHT_PANEL, "Light Panel (Linear)");
+        this.block(GCBlocks.DASHED_LIGHT_PANEL, "Light Panel (Dashed)");
+        this.block(GCBlocks.DIAGONAL_LIGHT_PANEL, "Light Panel (Diagonal)");
+        this.block(GCBlocks.LINEAR_LIGHT_PANEL, "Light Panel (Linear)");
+        this.block(GCBlocks.SPOTLIGHT_LIGHT_PANEL, "Light Panel (Spotlight)");
+        this.block(GCBlocks.SQUARE_LIGHT_PANEL, "Light Panel (Square)");
+
+        this.block(GCBlocks.MARS_SUB_SURFACE_ROCK, "Mars Sub-Surface Rock");
+
+        this.block(GCBlocks.MARS_STONE, "Mars Stone");
+        this.block(GCBlocks.MARS_STONE_SLAB, "Mars Stone Slab");
+        this.block(GCBlocks.MARS_STONE_STAIRS, "Mars Stone Stairs");
+        this.block(GCBlocks.MARS_STONE_WALL, "Mars Stone Wall");
+
+        this.block(GCBlocks.MARS_COBBLESTONE, "Mars Cobblestone");
+        this.block(GCBlocks.MARS_COBBLESTONE_SLAB, "Mars Cobblestone Slab");
+        this.block(GCBlocks.MARS_COBBLESTONE_STAIRS, "Mars Cobblestone Stairs");
+        this.block(GCBlocks.MARS_COBBLESTONE_WALL, "Mars Cobblestone Wall");
+
+        // ASTEROID NATURAL
+        this.block(GCBlocks.ASTEROID_ROCK, "Asteroid Rock");
         this.add(RecipeCategory.CIRCUIT_FABRICATOR, "Circuit Fabricating");
         this.add(RecipeCategory.COMPRESSOR, "Compressing");
 
@@ -611,10 +663,6 @@ public class GCTranslationProvider extends TranslationProvider {
 
     protected void generateChatTranslations() {
         this.add(Chat.BED_FAIL, "Uh oh, what if the oxygen runs out when I am asleep? I'll need a Cryogenic Chamber to sleep in space!");
-        this.add(Chat.CHAMBER_HOT, "The chamber is way too hot right now! It needs %s seconds to cool down before I sleep again.");
-        this.add(Chat.CHAMBER_OBSTRUCTED, "This cryogenic chamber is obstructed");
-        this.add(Chat.CHAMBER_OCCUPIED, "This cryogenic chamber is occupied");
-        this.add(Chat.CHAMBER_TOO_FAR_AWAY, "You may not rest now; the cryogenic chamber is too far away");
         this.add(Chat.ROCKET_WARNING, "Press again to launch.");
 
         this.add(Subtitles.THROW_METEOR_CHUNK, "Meteor Chunk flies");
@@ -841,7 +889,7 @@ public class GCTranslationProvider extends TranslationProvider {
 
         this.add(Ui.COLLECTING, "Collecting: %s/s");
         this.add(Ui.CURRENT_OXYGEN, "Oxygen: %s");
-        this.add(Ui.GJT, "%sGj/t");
+        this.add(Ui.GJT, "%s gJ/t");
         this.add(Ui.MAX_OXYGEN, "Maximum Oxygen: %s");
         this.add(Ui.MACHINE_STATUS, "Status: ");
         this.add(Ui.OXYGEN_TANK_LEVEL, "Oxygen Tank %s: %s/%s");
