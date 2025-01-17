@@ -36,6 +36,6 @@ public class ParachuteItem extends AccessoryItem {
     }
 
     public DyeColor getColor() {
-        return color;
+        return this.color;
     }
 }
