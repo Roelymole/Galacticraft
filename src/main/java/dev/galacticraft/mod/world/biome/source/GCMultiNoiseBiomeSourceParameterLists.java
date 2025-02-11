@@ -63,14 +63,15 @@ public class GCMultiNoiseBiomeSourceParameterLists {
     private static final Parameter WARM = Parameter.span(0.2F, 0.55F);
     private static final Parameter HOT = Parameter.span(0.55F, 1.0F);
 
-
-    private static final Parameter MAX_EROSION = Parameter.span(-1.0F, -0.78F); //todo better names
-    private static final Parameter ERODED = Parameter.span(-0.78F, -0.375F);
-    private static final Parameter MOSTLY_ERODED = Parameter.span(-0.375F, -0.2225F);
+    // Less erosion = higher elevation
+    private static final Parameter MIN_EROSION = Parameter.span(-1.0F, -0.78F); //todo better names
+    private static final Parameter NOT_VERY_ERODED = Parameter.span(-0.78F, -0.375F);
+    private static final Parameter SOMEWHAT_ERODED = Parameter.span(-0.375F, -0.2225F);
     private static final Parameter MED_EROSION = Parameter.span(-0.2225F, 0.05F);
-    private static final Parameter SOMEWHAT_ERODED = Parameter.span(0.05F, 0.45F);
-    private static final Parameter NOT_VERY_ERODED = Parameter.span(0.45F, 0.55F);
-    private static final Parameter MIN_EROSION = Parameter.span(0.55F, 1.0F);
+    private static final Parameter MOSTLY_ERODED = Parameter.span(0.05F, 0.45F);
+    private static final Parameter ERODED = Parameter.span(0.45F, 0.55F);
+    private static final Parameter MAX_EROSION = Parameter.span(0.55F, 1.0F);
+    // More erosion = lower elevation
 
     private static final Parameter CAVE_DEPTH = Parameter.span(0.2F, 0.9F);
 
@@ -99,35 +100,44 @@ public class GCMultiNoiseBiomeSourceParameterLists {
     @Contract("_ -> new")
     private static <T> Climate.@NotNull ParameterList<T> generateMoon(Function<ResourceKey<Biome>, T> biomeRegistry) {
         ImmutableList.Builder<Pair<Climate.ParameterPoint, T>> builder = ImmutableList.builder();
+        // Hot to prevent snow
         writeBiomeParameters(builder::add,
-                HOT, // hot to prevent snow
+                HOT,
                 DRY,
-                Parameter.span(SHORE_CONTINENTALNESS, MID_INLAND_CONTINENTALNESS),
-                MIN_EROSION,
-                WEIRDNESS_H_MIXED,
+                FULL_RANGE,
+                Parameter.span(MIN_EROSION, NOT_VERY_ERODED),
+                FULL_RANGE,
                 0.0F,
                 biomeRegistry.apply(GCBiomes.Moon.LUNAR_HIGHLANDS));
         writeBiomeParameters(builder::add,
                 HOT,
                 DRY,
-                Parameter.span(SHORE_CONTINENTALNESS, MID_INLAND_CONTINENTALNESS),
-                MIN_EROSION,
-                WEIRDNESS_L_MIXED,
+                FULL_RANGE,
+                Parameter.span(SOMEWHAT_ERODED, MED_EROSION),
+                FULL_RANGE,
+                0.0F,
+                biomeRegistry.apply(GCBiomes.Moon.LUNAR_LOWLANDS));
+        writeBiomeParameters(builder::add,
+                HOT,
+                DRY,
+                FULL_RANGE,
+                Parameter.span(MOSTLY_ERODED, MAX_EROSION),
+                FULL_RANGE,
                 0.0F,
                 biomeRegistry.apply(GCBiomes.Moon.BASALTIC_MARE));
         writeBiomeParameters(builder::add,
                 HOT,
                 DRY,
-                Parameter.span(SHORE_CONTINENTALNESS, MID_INLAND_CONTINENTALNESS),
-                MIN_EROSION,
-                WEIRDNESS_L_MIXED,
+                FULL_RANGE,
+                Parameter.span(MOSTLY_ERODED, MAX_EROSION),
+                FULL_RANGE,
                 0.0F,
                 biomeRegistry.apply(GCBiomes.Moon.COMET_TUNDRA));
         writeBiomeParameters(builder::add,
+                HOT,
+                DRY,
                 FULL_RANGE,
-                FULL_RANGE,
-                Climate.Parameter.span(-1.2F, -1.05F),
-                FULL_RANGE,
+                MIN_EROSION,
                 FULL_RANGE,
                 0.0F,
                 biomeRegistry.apply(GCBiomes.Moon.OLIVINE_SPIKES)
