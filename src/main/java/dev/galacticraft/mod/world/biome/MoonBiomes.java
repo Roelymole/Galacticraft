@@ -80,7 +80,7 @@ public class MoonBiomes {
     }
 
     public static void addDefaultSoftDisks(BiomeGenerationSettings.Builder builder) {
-        // builder.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, GCOrePlacedFeatures.BASALT_DISK_MOON);
+        builder.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, GCOrePlacedFeatures.BASALT_DISK_MOON);
     }
 
     public static Biome moon(

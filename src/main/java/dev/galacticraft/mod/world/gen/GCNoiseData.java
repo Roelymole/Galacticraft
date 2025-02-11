@@ -32,15 +32,17 @@ public class GCNoiseData {
     public static final ResourceKey<NormalNoise.NoiseParameters> EROSION = createKey("moon/erosion");
     public static final ResourceKey<NormalNoise.NoiseParameters> BASALT_MARE = createKey("moon/basalt_mare");
     public static final ResourceKey<NormalNoise.NoiseParameters> BASALT_MARE_HEIGHT = createKey("moon/basalt_mare_height");
+    public static final ResourceKey<NormalNoise.NoiseParameters> SPECKLES = createKey("moon/speckles");
 
     private static ResourceKey<NormalNoise.NoiseParameters> createKey(String id) {
         return ResourceKey.create(Registries.NOISE, Constant.id(id));
     }
 
     public static void bootstrapRegistries(BootstrapContext<NormalNoise.NoiseParameters> context) {
-//        register(context, EROSION, -11, 1, 1, 0, 1, 1);
-//        register(context, BASALT_MARE, 5, 0, 0.1, 0.2, 0.1, 0, 0, 0, 0);
-//        register(context, BASALT_MARE_HEIGHT, -12, 0.3);
+        register(context, EROSION, -11, 1, 1, 0, 1, 1);
+        register(context, BASALT_MARE, 5, 0, 0.1, 0.2, 0.1, 0, 0, 0, 0);
+        register(context, BASALT_MARE_HEIGHT, -12, 0.3);
+        register(context, SPECKLES, 1, 1);
     }
 
     private static void register(
