@@ -244,11 +244,17 @@ public class GCTranslationProvider extends TranslationProvider {
         this.block(GCBlocks.ALUMINUM_ORE, "Aluminum Ore");
         this.block(GCBlocks.DEEPSLATE_ALUMINUM_ORE, "Deepslate Aluminum Ore");
 
+        this.block(GCBlocks.MOON_CHEESE_ORE, "Moon Cheese Ore");
+
+        this.block(GCBlocks.LUNAR_SAPPHIRE_ORE, "Lunar Sapphire Ore");
+
         this.block(GCBlocks.DESH_ORE, "Desh Ore");
 
         this.block(GCBlocks.ILMENITE_ORE, "Ilmenite Ore");
 
         this.block(GCBlocks.GALENA_ORE, "Galena Ore");
+
+        this.block(GCBlocks.SOLAR_ORE, "Solar Ore");
 
         this.block(GCBlocks.OLIVINE_CLUSTER, "Olivine Cluster");
         this.block(GCBlocks.OLIVINE_BASALT, "Olivine Basalt");
@@ -389,6 +395,7 @@ public class GCTranslationProvider extends TranslationProvider {
         this.item(GCItems.SINGLE_SOLAR_MODULE, "Single Solar Module");
         this.item(GCItems.FULL_SOLAR_PANEL, "Full Solar Panel");
         this.item(GCItems.SOLAR_ARRAY_WAFER, "Solar Array Wafer");
+        this.item(GCItems.SOLAR_ARRAY_PANEL, "Solar Array Panel");
         this.item(GCItems.STEEL_POLE, "Steel Pole");
         this.item(GCItems.COPPER_CANISTER, "Copper Canister");
         this.item(GCItems.TIN_CANISTER, "Tin Canister");
@@ -535,6 +542,8 @@ public class GCTranslationProvider extends TranslationProvider {
         this.item(GCItems.EVOLVED_CREEPER_SPAWN_EGG, "Evolved Creeper Spawn Egg");
         this.item(GCItems.EVOLVED_SKELETON_SPAWN_EGG, "Evolved Skeleton Spawn Egg");
         this.item(GCItems.EVOLVED_SPIDER_SPAWN_EGG, "Evolved Spider Spawn Egg");
+        this.item(GCItems.EVOLVED_ENDERMAN_SPAWN_EGG, "Evolved Enderman Spawn Egg");
+        this.item(GCItems.EVOLVED_WITCH_SPAWN_EGG, "Evolved Witch Spawn Egg");
         this.item(GCItems.EVOLVED_PILLAGER_SPAWN_EGG, "Evolved Pillager Spawn Egg");
         this.item(GCItems.EVOLVED_EVOKER_SPAWN_EGG, "Evolved Evoker Spawn Egg");
         this.item(GCItems.EVOLVED_VINDICATOR_SPAWN_EGG, "Evolved Vindicator Spawn Egg");
@@ -586,12 +595,14 @@ public class GCTranslationProvider extends TranslationProvider {
         this.entity(GCEntityTypes.BUGGY, "Buggy");
         this.entity(GCEntityTypes.COMET_CUBE, "Comet Cube");
         this.entity(GCEntityTypes.EVOLVED_CREEPER, "Evolved Creeper");
+        this.entity(GCEntityTypes.EVOLVED_ENDERMAN, "Evolved Enderman");
         this.entity(GCEntityTypes.EVOLVED_EVOKER, "Evolved Evoker");
         this.entity(GCEntityTypes.EVOLVED_PILLAGER, "Evolved Pillager");
         this.entity(GCEntityTypes.EVOLVED_SKELETON, "Evolved Skeleton");
         this.entity(GCEntityTypes.SKELETON_BOSS, "Evolved Skeleton Boss");
         this.entity(GCEntityTypes.EVOLVED_SPIDER, "Evolved Spider");
         this.entity(GCEntityTypes.EVOLVED_VINDICATOR, "Evolved Vindicator");
+        this.entity(GCEntityTypes.EVOLVED_WITCH, "Evolved Witch");
         this.entity(GCEntityTypes.EVOLVED_ZOMBIE, "Evolved Zombie");
         this.entity(GCEntityTypes.GAZER, "Gazer");
         this.entity(GCEntityTypes.GREY, "Grey");
@@ -897,6 +908,7 @@ public class GCTranslationProvider extends TranslationProvider {
         this.add(Ui.COLLECTING, "Collecting: %s/s");
         this.add(Ui.CURRENT_OXYGEN, "Oxygen: %s");
         this.add(Ui.GJT, "%s gJ/t");
+        this.add(Ui.MILLIBUCKETS, "mB");
         this.add(Ui.MAX_OXYGEN, "Maximum Oxygen: %s");
         this.add(Ui.MACHINE_STATUS, "Status: %s");
         this.add(Ui.OXYGEN_TANK_LEVEL, "Oxygen Tank %s: %s/%s");

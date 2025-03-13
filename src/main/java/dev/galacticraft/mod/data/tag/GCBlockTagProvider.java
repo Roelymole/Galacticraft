@@ -163,12 +163,16 @@ public class GCBlockTagProvider extends FabricTagProvider.BlockTagProvider {
         var ores = new Block[] {
                 GCBlocks.SILICON_ORE, GCBlocks.DEEPSLATE_SILICON_ORE,
                 GCBlocks.MOON_COPPER_ORE, GCBlocks.LUNASLATE_COPPER_ORE,
+                GCBlocks.FALLEN_METEOR,
+                GCBlocks.MOON_CHEESE_ORE,
+                GCBlocks.LUNAR_SAPPHIRE_ORE,
                 GCBlocks.OLIVINE_BASALT, GCBlocks.RICH_OLIVINE_BASALT,
                 GCBlocks.TIN_ORE, GCBlocks.DEEPSLATE_TIN_ORE, GCBlocks.MOON_TIN_ORE, GCBlocks.LUNASLATE_TIN_ORE,
                 GCBlocks.ALUMINUM_ORE, GCBlocks.DEEPSLATE_ALUMINUM_ORE,
                 GCBlocks.DESH_ORE,
                 GCBlocks.ILMENITE_ORE,
-                GCBlocks.GALENA_ORE
+                GCBlocks.GALENA_ORE,
+                GCBlocks.SOLAR_ORE
         };
 
         this.tag(ConventionalBlockTags.ORES).add(ores);
@@ -296,7 +300,9 @@ public class GCBlockTagProvider extends FabricTagProvider.BlockTagProvider {
                         GCBlocks.LUNASLATE_TIN_ORE,
                         GCBlocks.ALUMINUM_ORE,
                         GCBlocks.DEEPSLATE_ALUMINUM_ORE,
+                        GCBlocks.MOON_CHEESE_ORE,
                         GCBlocks.GALENA_ORE,
+                        GCBlocks.SOLAR_ORE,
                         GCBlocks.RAW_TIN_BLOCK,
                         GCBlocks.TIN_BLOCK,
                         GCBlocks.RAW_ALUMINUM_BLOCK,
@@ -312,6 +318,7 @@ public class GCBlockTagProvider extends FabricTagProvider.BlockTagProvider {
                         GCBlocks.SILICON_ORE,
                         GCBlocks.DEEPSLATE_SILICON_ORE,
                         GCBlocks.FALLEN_METEOR,
+                        GCBlocks.LUNAR_SAPPHIRE_ORE,
                         GCBlocks.SILICON_BLOCK
                 );
 
