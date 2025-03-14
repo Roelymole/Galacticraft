@@ -94,7 +94,7 @@ public class GCNoiseGeneratorSettings {
                 ), // vegetation
                 GCDensityFunctions.getFunction(densityLookup, NoiseRouterData.CONTINENTS), // continents
                 GCDensityFunctions.getFunction(densityLookup, GCDensityFunctions.Moon.EROSION), // erosion
-                GCDensityFunctions.getFunction(densityLookup, NoiseRouterData.DEPTH), // depth
+                GCDensityFunctions.getFunction(densityLookup, GCDensityFunctions.Moon.DEPTH), // depth
                 GCDensityFunctions.getFunction(densityLookup, NoiseRouterData.RIDGES), // ridges
                 DensityFunctions.add(
                         DensityFunctions.constant(0.1171875),
@@ -111,13 +111,13 @@ public class GCNoiseGeneratorSettings {
                                                                 240, 256, 1, 0
                                                         ),
                                                         DensityFunctions.add(
-                                                                DensityFunctions.constant(0.078125),
+                                                                DensityFunctions.constant(0.078125), // 0.078125 = 1/128 which represents a single block
                                                                 DensityFunctions.add(
                                                                         DensityFunctions.constant(-0.703125),
                                                                         DensityFunctions.mul(
                                                                                 DensityFunctions.constant(4),
                                                                                 DensityFunctions.mul(
-                                                                                        GCDensityFunctions.getFunction(densityLookup, NoiseRouterData.DEPTH),
+                                                                                        GCDensityFunctions.getFunction(densityLookup, GCDensityFunctions.Moon.DEPTH),
                                                                                         DensityFunctions.cache2d(GCDensityFunctions.getFunction(densityLookup, NoiseRouterData.FACTOR))
                                                                                 ).quarterNegative()
                                                                         )

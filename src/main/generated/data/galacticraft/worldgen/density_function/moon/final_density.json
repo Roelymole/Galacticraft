@@ -37,15 +37,12 @@
         "y_scale": 7.0E-4
       },
       "argument2": {
-        "type": "minecraft:interpolated",
-        "argument": {
-          "type": "minecraft:noise",
-          "noise": "galacticraft:moon/basalt_mare_height",
-          "xz_scale": 0.0,
-          "y_scale": 0.0
-        }
+        "type": "minecraft:noise",
+        "noise": "galacticraft:moon/basalt_mare_height",
+        "xz_scale": 0.0,
+        "y_scale": 0.0
       }
     }
   },
-  "argument2": "galacticraft:caves/noodles"
+  "argument2": "galacticraft:caves/noodle"
 }

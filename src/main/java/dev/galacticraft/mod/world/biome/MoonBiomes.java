@@ -41,13 +41,13 @@ public class MoonBiomes {
 
     public static Biome createBasalticMare(HolderGetter<PlacedFeature> featureLookup, HolderGetter<ConfiguredWorldCarver<?>> carverLookup) {
         var generation = new BiomeGenerationSettings.Builder(featureLookup, carverLookup);
-        generation.addCarver(GenerationStep.Carving.AIR, GCConfiguredCarvers.MOON_MARE_CAVE_CARVER);
+        // generation.addCarver(GenerationStep.Carving.AIR, GCConfiguredCarvers.MOON_MARE_CAVE_CARVER);
         return MoonBiomes.moon(featureLookup, carverLookup, generation);
     }
 
     public static Biome createLunarHighlands(HolderGetter<PlacedFeature> featureLookup, HolderGetter<ConfiguredWorldCarver<?>> carverLookup) {
         var generation = new BiomeGenerationSettings.Builder(featureLookup, carverLookup);
-        generation.addCarver(GenerationStep.Carving.AIR, GCConfiguredCarvers.MOON_HIGHLANDS_CAVE_CARVER);
+        // generation.addCarver(GenerationStep.Carving.AIR, GCConfiguredCarvers.MOON_HIGHLANDS_CAVE_CARVER);
         return MoonBiomes.moon(featureLookup, carverLookup, generation);
     }
 
@@ -62,12 +62,12 @@ public class MoonBiomes {
     public static void monsters(MobSpawnSettings.Builder builder, int zombieWeight, int zombieVillagerWeight, int selektonWeight) {
         builder.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(GCEntityTypes.EVOLVED_SPIDER, 100, 4, 4));
         builder.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(GCEntityTypes.EVOLVED_ZOMBIE, zombieWeight, 4, 4));
-//        builder.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(GCEntityTypes.EVOLVED_ZOMBIE_VILLAGER, zombieVillagerWeight, 1, 1));
+        // builder.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(GCEntityTypes.EVOLVED_ZOMBIE_VILLAGER, zombieVillagerWeight, 1, 1));
         builder.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(GCEntityTypes.EVOLVED_SKELETON, selektonWeight, 4, 4));
         builder.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(GCEntityTypes.EVOLVED_CREEPER, 100, 4, 4));
-//        builder.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(GCEntityTypes.EVOLVED_SLIME, 100, 4, 4));
-//        builder.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(GCEntityTypes.EVOLVED_ENDERMAN, 10, 1, 4));
-//        builder.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(GCEntityTypes.EVOLVED_WITCH, 5, 1, 1));
+        // builder.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(GCEntityTypes.EVOLVED_SLIME, 100, 4, 4));
+        builder.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(GCEntityTypes.EVOLVED_ENDERMAN, 10, 1, 4));
+        builder.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(GCEntityTypes.EVOLVED_WITCH, 5, 1, 1));
     }
 
     public static void addDefaultMoonOres(BiomeGenerationSettings.Builder builder) {
@@ -96,7 +96,7 @@ public class MoonBiomes {
                 .backgroundMusic(Musics.createGameMusic(GCSounds.MUSIC_MOON));
 
         MoonBiomes.addDefaultMoonOres(generation);
-        MoonBiomes.addDefaultSoftDisks(generation);
+        // MoonBiomes.addDefaultSoftDisks(generation);
         MoonBiomes.monsters(spawnBuilder, 95, 5, 100);
 
         generation.addCarver(GenerationStep.Carving.AIR, GCConfiguredCarvers.MOON_CRATER_CARVER);

@@ -5,8 +5,8 @@
     "argument": {
       "type": "minecraft:range_choice",
       "input": "minecraft:y",
-      "max_exclusive": 45.0,
-      "min_inclusive": -25.0,
+      "max_exclusive": 64.0,
+      "min_inclusive": -28.0,
       "when_in_range": {
         "type": "minecraft:noise",
         "noise": "minecraft:noodle",
@@ -26,8 +26,8 @@
       "argument": {
         "type": "minecraft:range_choice",
         "input": "minecraft:y",
-        "max_exclusive": 45.0,
-        "min_inclusive": -25.0,
+        "max_exclusive": 64.0,
+        "min_inclusive": -28.0,
         "when_in_range": {
           "type": "minecraft:add",
           "argument1": -0.07500000000000001,
@@ -57,8 +57,8 @@
             "argument": {
               "type": "minecraft:range_choice",
               "input": "minecraft:y",
-              "max_exclusive": 45.0,
-              "min_inclusive": -25.0,
+              "max_exclusive": 64.0,
+              "min_inclusive": -28.0,
               "when_in_range": {
                 "type": "minecraft:noise",
                 "noise": "minecraft:noodle_ridge_a",
@@ -76,8 +76,8 @@
             "argument": {
               "type": "minecraft:range_choice",
               "input": "minecraft:y",
-              "max_exclusive": 45.0,
-              "min_inclusive": -25.0,
+              "max_exclusive": 64.0,
+              "min_inclusive": -28.0,
               "when_in_range": {
                 "type": "minecraft:noise",
                 "noise": "minecraft:noodle_ridge_b",

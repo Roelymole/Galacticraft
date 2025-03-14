@@ -54,12 +54,10 @@ public class MoonSurfaceRules {
     private static final RuleSource DEBUG_STATE = block(GCBlocks.ALUMINUM_DECORATION.block());
 
     private static final RuleSource SURFACE_MATERIAL = SurfaceRules.sequence(
-            SurfaceRules.ifTrue(IS_MARE, MOON_BASALT),
-            SurfaceRules.ifTrue(NOT_MARE, MOON_TURF)
+            SurfaceRules.ifTrue(IS_MARE, MOON_BASALT), MOON_TURF
     );
     private static final RuleSource SECONDARY_MATERIAL = SurfaceRules.sequence(
-            SurfaceRules.ifTrue(IS_MARE, MOON_BASALT),
-            SurfaceRules.ifTrue(NOT_MARE, MOON_DIRT)
+            SurfaceRules.ifTrue(IS_MARE, MOON_BASALT), MOON_DIRT
     );
     private static final RuleSource SURFACE_GENERATION = SurfaceRules.sequence(
             SurfaceRules.ifTrue(SurfaceRules.ON_FLOOR, SURFACE_MATERIAL),
