@@ -34,9 +34,8 @@ import net.minecraft.world.level.levelgen.NoiseRouterData;
 import net.minecraft.world.level.levelgen.synth.BlendedNoise;
 
 public class GCDensityFunctions {
-    public static final ResourceKey<DensityFunction> NOODLE = createKey("caves/noodle");
-
     public static final class Moon {
+        public static final ResourceKey<DensityFunction> NOODLE = createKey("moon/caves/noodle");
         public static final ResourceKey<DensityFunction> EROSION = createKey("moon/erosion");
         public static final ResourceKey<DensityFunction> DEPTH = createKey("moon/depth");
         public static final ResourceKey<DensityFunction> FINAL_DENSITY = createKey("moon/final_density");
@@ -58,7 +57,7 @@ public class GCDensityFunctions {
         DensityFunction shiftZ = getFunction(vanillaRegistry, NoiseRouterData.SHIFT_Z);
         DensityFunction y = getFunction(vanillaRegistry, NoiseRouterData.Y);
 
-        DensityFunction noodle = registerAndWrap(context, NOODLE, DensityFunctions.rangeChoice(
+        DensityFunction noodle = registerAndWrap(context, Moon.NOODLE, DensityFunctions.rangeChoice(
                 DensityFunctions.interpolated(
                         DensityFunctions.rangeChoice(
                                 y, -28, 64,
@@ -108,6 +107,7 @@ public class GCDensityFunctions {
                         )
         ));
         DensityFunction depth = registerAndWrap(context, Moon.DEPTH, DensityFunctions.yClampedGradient(-32, 200, 1.5, -1.5));
+
         context.register(Moon.FINAL_DENSITY, DensityFunctions.min(
                 DensityFunctions.add(
                         DensityFunctions.interpolated(

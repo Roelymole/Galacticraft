@@ -113,7 +113,7 @@ public class GCNoiseGeneratorSettings {
                                                         DensityFunctions.add(
                                                                 DensityFunctions.constant(0.078125), // 0.078125 = 1/128 which represents a single block
                                                                 DensityFunctions.add(
-                                                                        DensityFunctions.constant(-0.703125),
+                                                                        DensityFunctions.constant(-0.703125), // CHEESE_NOISE_TARGET
                                                                         DensityFunctions.mul(
                                                                                 DensityFunctions.constant(4),
                                                                                 DensityFunctions.mul(
