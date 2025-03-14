@@ -90,9 +90,9 @@ public class MoonSurfaceRules {
 
     public static @NotNull RuleSource createDefaultRule() {
         return SurfaceRules.sequence(
-                SurfaceRules.ifTrue(SurfaceRules.abovePreliminarySurface(), SurfaceRules.sequence(BASALT_EDGE, SURFACE_GENERATION)),
-                SurfaceRules.ifTrue(SurfaceRules.verticalGradient("lunaslate", VerticalAnchor.absolute(-4), VerticalAnchor.absolute(4)), LUNASLATE),
-                SurfaceRules.ifTrue(SurfaceRules.verticalGradient("bedrock_floor", VerticalAnchor.bottom(), VerticalAnchor.aboveBottom(5)), BEDROCK)
+                SurfaceRules.ifTrue(SurfaceRules.verticalGradient("bedrock_floor", VerticalAnchor.bottom(), VerticalAnchor.aboveBottom(5)), BEDROCK),
+                SurfaceRules.ifTrue(SurfaceRules.abovePreliminarySurface(),  SURFACE_GENERATION), //SurfaceRules.sequence(BASALT_EDGE, SURFACE_GENERATION)),
+                SurfaceRules.ifTrue(SurfaceRules.verticalGradient("lunaslate", VerticalAnchor.absolute(0), VerticalAnchor.absolute(8)), LUNASLATE)
                 
         );
     }

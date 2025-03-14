@@ -49,31 +49,31 @@ public class GCNoiseGeneratorSettings {
         HolderGetter<NormalNoise.NoiseParameters> noiseLookup = context.lookup(Registries.NOISE);
 
        context.register(MOON, new NoiseGeneratorSettings(
-               NoiseSettings.create(-32, 256, 1, 2),
+               NoiseSettings.create(-32, 352, 1, 2),
                GCBlocks.MOON_ROCK.defaultBlockState(),
                Blocks.AIR.defaultBlockState(),
                GCNoiseGeneratorSettings.moon(densityLookup, noiseLookup),
                MoonSurfaceRules.MOON,
                new OverworldBiomeBuilder().spawnTarget(),
-               -32,
-               false,
-               false,
-               true,
-               false
+               -32, // seaLevel
+               false, // disableMobGeneration
+               false, // aquifersEnabled
+               false, // oreVeinsEnabled
+               false // useLegacyRandomSource
        ));
 
         context.register(VENUS, new NoiseGeneratorSettings(
-                NoiseSettings.create(-32, 256, 1, 2),
+                NoiseSettings.create(-32, 352, 1, 2),
                 GCBlocks.HARD_VENUS_ROCK.defaultBlockState(),
                 Blocks.AIR.defaultBlockState(),
                 GCNoiseGeneratorSettings.venus(densityLookup, noiseLookup),
                 VenusSurfaceRules.VENUS,
                 new OverworldBiomeBuilder().spawnTarget(),
-                -32,
-                false,
-                false,
-                true,
-                false
+                -32, // seaLevel
+                false, // disableMobGeneration
+                false, // aquifersEnabled
+                false, // oreVeinsEnabled
+                false // useLegacyRandomSource
         ));
     }
 
@@ -100,7 +100,7 @@ public class GCNoiseGeneratorSettings {
                         DensityFunctions.constant(0.1171875),
                         DensityFunctions.mul(
                                 DensityFunctions.yClampedGradient(
-                                        -30, -40, 0, 1
+                                        -32, -8, 0, 1
                                 ),
                                 DensityFunctions.add(
                                         DensityFunctions.constant(-0.1171875),
@@ -121,7 +121,7 @@ public class GCNoiseGeneratorSettings {
                                                                                         DensityFunctions.cache2d(GCDensityFunctions.getFunction(densityLookup, NoiseRouterData.FACTOR))
                                                                                 ).quarterNegative()
                                                                         )
-                                                                ).clamp(-30, 64)
+                                                                ).clamp(-32, 64)
                                                         )
                                                 )
                                         )

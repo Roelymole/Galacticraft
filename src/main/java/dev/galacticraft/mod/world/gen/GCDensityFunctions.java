@@ -112,8 +112,8 @@ public class GCDensityFunctions {
                                 DensityFunctions.blendDensity(
                                         DensityFunctions.rangeChoice(
                                                 erosion, 0.05, 2.000000000000001,
-                                                DensityFunctions.yClampedGradient(-64, 190, 1, -1),
-                                                DensityFunctions.yClampedGradient(-64, 200, 1, -1)
+                                                DensityFunctions.yClampedGradient(-32, 190, 1, -1),
+                                                DensityFunctions.yClampedGradient(-32, 200, 1, -1)
                                         )
                                 )
                         ),

@@ -14,14 +14,14 @@
           "when_in_range": {
             "type": "minecraft:y_clamped_gradient",
             "from_value": 1.0,
-            "from_y": -64,
+            "from_y": -32,
             "to_value": -1.0,
             "to_y": 190
           },
           "when_out_of_range": {
             "type": "minecraft:y_clamped_gradient",
             "from_value": 1.0,
-            "from_y": -64,
+            "from_y": -32,
             "to_value": -1.0,
             "to_y": 200
           }
@@ -37,10 +37,13 @@
         "y_scale": 7.0E-4
       },
       "argument2": {
-        "type": "minecraft:noise",
-        "noise": "galacticraft:moon/basalt_mare_height",
-        "xz_scale": 0.0,
-        "y_scale": 0.0
+        "type": "minecraft:interpolated",
+        "argument": {
+          "type": "minecraft:noise",
+          "noise": "galacticraft:moon/basalt_mare_height",
+          "xz_scale": 0.0,
+          "y_scale": 0.0
+        }
       }
     }
   },
