@@ -358,7 +358,7 @@ public class GCModelProvider extends FabricModelProvider {
         generator.createTrivialCube(GCBlocks.AIR_LOCK_FRAME);
         this.createAirLockController(generator);
 
-        this.createParachests(generator);
+        this.createTrivialHorizontalFacingBlock(generator, GCBlocks.PARACHEST);
     }
 
     private static void createFullCubeActiveMachine(BlockModelGenerators generator, Block block) {
@@ -460,19 +460,8 @@ public class GCModelProvider extends FabricModelProvider {
         generator.createTrivialBlock(block, textureMapping, ModelTemplates.CUBE_COLUMN);
     }
 
-    private void createParachests(BlockModelGenerators generator) {
-        var para = MultiPartGenerator.multiPart(GCBlocks.PARACHEST);
-        Direction.Plane.HORIZONTAL.forEach(state -> {
-            para.with(Condition.condition().term(ParachestBlock.FACING, state), Variant.variant()
-                    .with(VariantProperties.Y_ROT, getRotationFromDirection(state))
-                    .with(VariantProperties.MODEL, ResourceLocation.parse("galacticraft:block/parachest/parachest")));
-        });
-        GCBlocks.PARACHEST.getStateDefinition().getPossibleStates().forEach(state -> {
-            para.with(Condition.condition().term(ParachestBlock.FACING, state.getValue(ParachestBlock.FACING)).term(ParachestBlock.COLOR, state.getValue(ParachestBlock.COLOR)), Variant.variant()
-                    .with(VariantProperties.Y_ROT, getRotationFromDirection(state.getValue(ParachestBlock.FACING)))
-                    .with(VariantProperties.MODEL, ResourceLocation.parse("galacticraft:block/parachest/" + state.getValue(ParachestBlock.COLOR) + "_chute")));
-        });
-        generator.blockStateOutput.accept(para);
+    private void createTrivialHorizontalFacingBlock(BlockModelGenerators generator, Block block) {
+        generator.blockStateOutput.accept(MultiVariantGenerator.multiVariant(block, Variant.variant().with(VariantProperties.MODEL, ModelLocationUtils.getModelLocation(block))).with(BlockModelGenerators.createHorizontalFacingDispatch()));
     }
 
     private void createGlassFluidPipeAndWalkway(BlockModelGenerators generator) {

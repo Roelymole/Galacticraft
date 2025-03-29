@@ -56,11 +56,11 @@ public class ParachestRenderer extends EntityRenderer<ParachestEntity> {
         poseStack.translate(-0.5F, 0F, -0.5F);
         this.chest.render(poseStack, buffer.getBuffer(RenderType.entityCutoutNoCull(TEXTURE)), packedLight, OverlayTexture.NO_OVERLAY);
         poseStack.translate(-0.0625F, 0F, 0.375F);
-        this.parachute.renderToBuffer(poseStack, buffer.getBuffer(RenderType.entityCutoutNoCull(getTextureLocation(entity))), packedLight, OverlayTexture.NO_OVERLAY);
+        this.parachute.renderToBuffer(poseStack, buffer.getBuffer(RenderType.entityCutoutNoCull(getTextureLocation(entity))), packedLight, OverlayTexture.NO_OVERLAY, entity.getColor().getTextureDiffuseColor());
     }
 
     @Override
     public ResourceLocation getTextureLocation(ParachestEntity entity) {
-        return Constant.id("textures/model/parachute/" + entity.getColor().getName() + ".png");
+        return Constant.id("textures/model/parachute/white.png");
     }
 }

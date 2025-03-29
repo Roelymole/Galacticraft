@@ -47,6 +47,7 @@ import dev.galacticraft.mod.content.GCBlocks;
 import dev.galacticraft.mod.content.GCEntityTypes;
 import dev.galacticraft.mod.content.GCFluids;
 import dev.galacticraft.mod.content.block.environment.FallenMeteorBlock;
+import dev.galacticraft.mod.content.block.special.ParachestBlock;
 import dev.galacticraft.mod.content.entity.orbital.RocketEntity;
 import dev.galacticraft.mod.content.item.GCItems;
 import dev.galacticraft.mod.events.ClientEventHandler;
@@ -77,7 +78,10 @@ import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.particle.SplashParticle;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.packs.PackType;
+import net.minecraft.util.FastColor;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.material.Fluids;
 
 @Environment(EnvType.CLIENT)
@@ -202,9 +206,12 @@ public class GalacticraftClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putFluids(RenderType.translucent(), GCFluids.FUEL, GCFluids.FLOWING_FUEL);
         BlockRenderLayerMap.INSTANCE.putFluids(RenderType.translucent(), GCFluids.SULFURIC_ACID, GCFluids.FLOWING_SULFURIC_ACID);
 
+        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> tintIndex != 0 ? -1 : state.getValue(ParachestBlock.COLOR).getTextureDiffuseColor(), GCBlocks.PARACHEST);
+        ColorProviderRegistry.ITEM.register((stack, layer) -> layer != 0 ? -1 : stack.getOrDefault(DataComponents.BASE_COLOR, DyeColor.WHITE).getTextureDiffuseColor(), GCBlocks.PARACHEST.asItem());
+
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> FallenMeteorBlock.colorMultiplier(state, world, pos), GCBlocks.FALLEN_METEOR);
         ColorProviderRegistry.ITEM.register((stack, layer) -> layer != 1 ? -1 : ColorUtil.getRainbowOpaque(), GCItems.INFINITE_BATTERY, GCItems.INFINITE_OXYGEN_TANK);
-        ColorProviderRegistry.ITEM.register((stack, layer) -> layer != 1 ? -1 : stack.getOrDefault(GCDataComponents.COLOR, 0) + 0xFF000000, GCItems.CANNED_FOOD);
+        ColorProviderRegistry.ITEM.register((stack, layer) -> layer != 1 ? -1 : FastColor.ARGB32.opaque(stack.getOrDefault(GCDataComponents.COLOR, 0)), GCItems.CANNED_FOOD);
 
         BuiltinItemRendererRegistry.INSTANCE.register(GCItems.ROCKET, new RocketItemRenderer());
 
