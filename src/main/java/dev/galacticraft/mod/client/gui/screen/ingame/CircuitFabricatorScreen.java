@@ -40,10 +40,10 @@ import net.minecraft.world.item.crafting.RecipeInput;
 @Environment(EnvType.CLIENT)
 public class CircuitFabricatorScreen extends MachineScreen<CircuitFabricatorBlockEntity, RecipeMachineMenu<RecipeInput, FabricationRecipe, CircuitFabricatorBlockEntity>> {
     private static final int PROGRESS_SIZE = 3;
-    private static final int INITIAL_PROGRESS_U = 0;
-    private static final int INITIAL_PROGRESS_V = 187;
-    private static final int INITIAL_PROGRESS_X = 48;
-    private static final int INITIAL_PROGRESS_Y = 23;
+    private static final int PRIMARY_PROGRESS_U = 0;
+    private static final int PRIMARY_PROGRESS_V = 187;
+    private static final int PRIMARY_PROGRESS_X = 48;
+    private static final int PRIMARY_PROGRESS_Y = 23;
     private static final int SECONDARY_PROGRESS_U = 31;
     private static final int SECONDARY_PROGRESS_V = 217;
     private static final int SECONDARY_PROGRESS_X = 79;
@@ -113,9 +113,9 @@ public class CircuitFabricatorScreen extends MachineScreen<CircuitFabricatorBloc
         if (this.menu.getProgress() > 0) {
             float progress = SUMS[6] * (float) this.menu.getProgress() / (float) this.menu.getMaxProgress();
             if (progress <= SUMS[0]) {
-                DrawableUtil.drawProgressTexture(matrices, this.leftPos + INITIAL_PROGRESS_X, this.topPos + INITIAL_PROGRESS_Y, INITIAL_PROGRESS_U, INITIAL_PROGRESS_V, progress, PROGRESS_SIZE);
+                DrawableUtil.drawProgressTexture(matrices, this.leftPos + PRIMARY_PROGRESS_X, this.topPos + PRIMARY_PROGRESS_Y, PRIMARY_PROGRESS_U, PRIMARY_PROGRESS_V, progress, PROGRESS_SIZE);
             } else {
-                DrawableUtil.drawProgressTexture(matrices, this.leftPos + INITIAL_PROGRESS_X, this.topPos + INITIAL_PROGRESS_Y, INITIAL_PROGRESS_U, INITIAL_PROGRESS_V, A, Math.min(B, progress - SUMS[0]) + 4);
+                DrawableUtil.drawProgressTexture(matrices, this.leftPos + PRIMARY_PROGRESS_X, this.topPos + PRIMARY_PROGRESS_Y, PRIMARY_PROGRESS_U, PRIMARY_PROGRESS_V, A, Math.min(B, progress - SUMS[0]) + 4);
                 if (progress > SUMS[1]) {
                     float concurrent = (progress - SUMS[1]) * F;
                     DrawableUtil.drawProgressTexture(matrices, this.leftPos + SECONDARY_PROGRESS_X, this.topPos + SECONDARY_PROGRESS_Y, SECONDARY_PROGRESS_U, SECONDARY_PROGRESS_V, Math.min(C, progress - SUMS[1]), PROGRESS_SIZE);
