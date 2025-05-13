@@ -45,7 +45,7 @@ public interface Constant {
 
     double RADIANS_TO_DEGREES = 180.0 / Math.PI;
 
-    int OVERWORLD_SKYPROVIDER_STARTHEIGHT = 200;
+    int OVERWORLD_SKYPROVIDER_STARTHEIGHT = 300;
     int CLOUD_HEIGHT = 200;
     int CLOUD_LIMIT = CLOUD_HEIGHT + 100;
     int SPACE_HEIGHT = 1000;
