@@ -52,7 +52,7 @@ public class EvolvedSpiderEntityRenderer extends MobRenderer<EvolvedSpiderEntity
     }
 
     @Override
-    public ResourceLocation getTextureLocation(EvolvedSpiderEntity spiderEntity) {
+    public ResourceLocation getTextureLocation(EvolvedSpiderEntity entity) {
         return TEXTURE;
     }
 }

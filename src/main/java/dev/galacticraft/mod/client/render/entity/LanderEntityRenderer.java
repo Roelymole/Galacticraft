@@ -36,6 +36,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
 public class LanderEntityRenderer extends EntityRenderer<LanderEntity> {
+    public static final ResourceLocation TEXTURE = Constant.id(Constant.EntityTexture.LANDER);
     protected final LanderModel model;
 
     public LanderEntityRenderer(EntityRendererProvider.Context context) {
@@ -46,7 +47,7 @@ public class LanderEntityRenderer extends EntityRenderer<LanderEntity> {
 
     @Override
     public ResourceLocation getTextureLocation(LanderEntity entity) {
-        return Constant.id(Constant.EntityTexture.LANDER);
+        return TEXTURE;
     }
 
     @Override
