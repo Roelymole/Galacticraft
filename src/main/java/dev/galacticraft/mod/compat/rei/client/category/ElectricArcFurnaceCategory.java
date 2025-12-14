@@ -32,6 +32,7 @@ import me.shedaniel.rei.api.client.gui.widgets.Widget;
 import me.shedaniel.rei.api.client.gui.widgets.Widgets;
 import me.shedaniel.rei.api.client.registry.display.DisplayCategory;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
+import me.shedaniel.rei.api.common.entry.EntryStack;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -81,7 +82,9 @@ public class ElectricArcFurnaceCategory implements DisplayCategory<ElectricArcFu
 
         Point outputPoint = new Point(startPoint.x + OUTPUT_X_1, startPoint.y + OUTPUT_Y_1);
         widgets.add(Widgets.createResultSlotBackground(outputPoint));
-        widgets.add(Widgets.createSlot(outputPoint).disableBackground().markOutput().entries(recipeDisplay.getOutputEntries().get(0)));
+        widgets.add(Widgets.createSlot(outputPoint).disableBackground().markOutput().entries(recipeDisplay.getOutputEntries().get(0).stream().map(
+                entry -> (EntryStack<ItemStack>) entry.withRenderer(DoubleProcessingEntryRenderer.INSTANCE)
+        ).toList()));
 
         outputPoint = new Point(startPoint.x + OUTPUT_X_2, startPoint.y + OUTPUT_Y_2);
         widgets.add(Widgets.createResultSlotBackground(outputPoint));

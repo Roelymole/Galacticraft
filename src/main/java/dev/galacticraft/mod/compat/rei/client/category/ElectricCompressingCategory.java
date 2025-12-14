@@ -35,6 +35,8 @@ import me.shedaniel.rei.api.client.gui.widgets.Widgets;
 import me.shedaniel.rei.api.client.registry.display.DisplayCategory;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
+import me.shedaniel.rei.api.common.entry.EntryStack;
+import me.shedaniel.rei.api.client.entry.renderer.EntryRenderer;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -77,6 +79,8 @@ public class ElectricCompressingCategory implements DisplayCategory<ElectricComp
         List<EntryIngredient> input = recipeDisplay.getInputEntries();
         List<Slot> slots = Lists.newArrayList();
 
+        EntryRenderer doubleProcessingEntryRenderer = new DoubleProcessingEntryRenderer();
+
         double processingTime = recipeDisplay.getProcessingTime() * 50.0D;
         widgets.add(new CustomArrowWidget(SCREEN_TEXTURE, new Rectangle(startPoint.x + PROGRESS_X, startPoint.y + PROGRESS_Y, PROGRESS_WIDTH, PROGRESS_HEIGHT),
                 PROGRESS_U, PROGRESS_V, processingTime));
@@ -93,7 +97,9 @@ public class ElectricCompressingCategory implements DisplayCategory<ElectricComp
         }
         for (i = 0; i < input.size(); ++i) {
             if (!input.get(i).isEmpty()) {
-                slots.get(this.getSlotWithSize(recipeDisplay, i)).entries(input.get(i));
+                slots.get(this.getSlotWithSize(recipeDisplay, i)).entries(input.get(i).stream().map(
+                        entry -> (EntryStack<ItemStack>) entry.withRenderer(doubleProcessingEntryRenderer)
+                ).toList());
             }
         }
 
@@ -102,7 +108,9 @@ public class ElectricCompressingCategory implements DisplayCategory<ElectricComp
         final Point outputPoint = new Point(startPoint.x + OUTPUT_X_1, startPoint.y + OUTPUT_Y_1);
         widgets.add(Widgets.createResultSlotBackground(outputPoint));
         widgets.add(Widgets.createResultSlotBackground(new Point(startPoint.x + OUTPUT_X_2, startPoint.y + OUTPUT_Y_2)));
-        widgets.add(Widgets.createSlot(outputPoint).disableBackground().markOutput().entries(recipeDisplay.getOutputEntries().get(0)));
+        widgets.add(Widgets.createSlot(outputPoint).disableBackground().markOutput().entries(recipeDisplay.getOutputEntries().get(0).stream().map(
+                entry -> (EntryStack<ItemStack>) entry.withRenderer(doubleProcessingEntryRenderer)
+        ).toList()));
 
         if (recipeDisplay.isShapeless()) {
             widgets.add(Widgets.createShapelessIcon(new Point(startPoint.x + OUTPUT_X_1 - 6, bounds.y + 5)));
@@ -156,5 +164,4 @@ public class ElectricCompressingCategory implements DisplayCategory<ElectricComp
     public int getMaximumDisplaysPerPage() {
         return 99;
     }
-
 }
