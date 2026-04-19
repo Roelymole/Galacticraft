@@ -282,13 +282,13 @@ public class CelestialSelectionScreen extends CelestialScreen {
     public boolean mouseClicked(double x, double y, int button) {
         boolean clickHandled = false;
 
-        if (this.selectedBody != null && x > LHS && x < LHS + 88 && y > LHS && y < LHS + 13) {
+        if (this.selectedBody != null && DrawableUtil.mouseIn(x, y, LHS, LHS, 88, 13)) {
             this.unselectCelestialBody();
             return true;
         }
 
         if (!this.mapMode) {
-            if (x >= RHS - CREATE_SS_PANEL_WIDTH - 2 && x < RHS - 2 && y > createSpaceStationButtonY && y < createSpaceStationButtonY + CREATE_SS_PANEL_BUTTON_HEIGHT) {
+            if (DrawableUtil.mouseIn(x, y, RHS - CREATE_SS_PANEL_WIDTH - 2, this.createSpaceStationButtonY, CREATE_SS_PANEL_BUTTON_WIDTH, CREATE_SS_PANEL_BUTTON_HEIGHT)) {
                 if (this.selectedBody != null && this.selectedBody.type() instanceof Orbitable orbitable/* && this.selectedBody.getWorld() != null*/) {
                     SatelliteRecipe recipe = orbitable.satelliteRecipe(this.selectedBody.config());
                     if (recipe != null && this.canCreateSpaceStation(this.selectedBody)) {
@@ -314,18 +314,14 @@ public class CelestialSelectionScreen extends CelestialScreen {
             }
         }
 
-        boolean a = x > RHS - 88 && x < RHS && y > LHS && y < LHS + 13;
-        if (this.mapMode) {
-            if (a) {
-                assert this.minecraft != null;
+        // Button in the top right corner
+        if (DrawableUtil.mouseIn(x, y, RHS - TOP_RIGHT_ACTION_BUTTON_WIDTH, LHS, TOP_RIGHT_ACTION_BUTTON_WIDTH, TOP_RIGHT_ACTION_BUTTON_HEIGHT)) {
+            if (this.mapMode) {
+                // Exit
                 this.minecraft.setScreen(null);
                 clickHandled = true;
-            }
-        }
-
-        if (this.selectedBody != null && !this.mapMode) {
-            if (a) {
-                assert this.minecraft != null;
+            } else if (this.selectedBody != null && !this.mapMode) {
+                // Launch
                 if ((!this.isSatellite(this.selectedBody) || ((Satellite) this.selectedBody.type()).ownershipData(this.selectedBody.config()).canAccess(this.minecraft.player))) {
                     this.teleportToSelectedBody();
                 }
@@ -335,25 +331,24 @@ public class CelestialSelectionScreen extends CelestialScreen {
 
         if (this.isSatellite(this.selectedBody)) {
             if (this.renamingSpaceStation) {
-                if (x >= width / 2f - 90 && x <= width / 2f + 90 && y >= this.height / 2f - 38 && y <= this.height / 2f + 38) {
-                    // Apply
-                    if (x >= width / 2f - 90 + 17 && x <= width / 2f - 90 + 17 + 72 && y >= this.height / 2f - 38 + 59 && y <= this.height / 2f - 38 + 59 + 12) {
-                        assert this.minecraft != null;
-                        assert this.minecraft.player != null;
+                int renamingX = this.width / 2 - 90;
+                int renamingY = this.height / 2 - 38;
+                if (DrawableUtil.mouseIn(x, y, renamingX, renamingY, 180, 76)) {
+                    if (DrawableUtil.mouseIn(x, y, renamingX + 17, renamingY + 59, 72, 12)) {
+                        // Apply
                         String strName = this.minecraft.player.getName().getString();
                         CelestialBody<SatelliteConfig, SatelliteType> selectedSatellite = (CelestialBody<SatelliteConfig, SatelliteType>) this.selectedBody;
                         selectedSatellite.type().setCustomName(this.renamingString, selectedSatellite.config());
                         ClientPlayNetworking.send(new SatelliteUpdatePayload(selectedSatellite.config()));
                         this.renamingSpaceStation = false;
-                    }
-                    // Cancel
-                    if (x >= width / 2f && x <= width / 2f + 72 && y >= this.height / 2f - 38 + 59 && y <= this.height / 2f - 38 + 59 + 12) {
+                    } else if (DrawableUtil.mouseIn(x, y, renamingX + 90, renamingY + 59, 72, 12)) {
+                        // Cancel
                         this.renamingSpaceStation = false;
                     }
                     clickHandled = true;
                 }
             } else {
-                if (x >= width / 2f - 47 && x <= width / 2f - 47 + 94 && y >= LHS && y <= LHS + 11) {
+                if (DrawableUtil.mouseIn(x, y, width / 2 - 47, LHS, 94, 11)) {
                     if (!this.selectedStationOwner.isEmpty()) {
                         assert this.minecraft != null;
                         if (this.selectedStationOwner.equalsIgnoreCase(this.minecraft.player.getName().getString())) {
@@ -376,7 +371,7 @@ public class CelestialSelectionScreen extends CelestialScreen {
                 xPos = RHS - 85;
                 yPos = LHS + 45;
 
-                if (x >= xPos && x <= xPos + 61 && y >= yPos && y <= yPos + 4) {
+                if (DrawableUtil.mouseIn(x, y, xPos, yPos, 61, 4)) {
                     if (this.spaceStationListOffset > 0) {
                         this.spaceStationListOffset--;
                     }
@@ -387,7 +382,7 @@ public class CelestialSelectionScreen extends CelestialScreen {
                 xPos = RHS - 85;
                 yPos = LHS + 49 + max * 14;
 
-                if (x >= xPos && x <= xPos + 61 && y >= yPos && y <= yPos + 4) {
+                if (DrawableUtil.mouseIn(x, y, xPos, yPos, 61, 4)) {
                     if (max + this.spaceStationListOffset < stationListSize) {
                         this.spaceStationListOffset++;
                     }
@@ -409,7 +404,7 @@ public class CelestialSelectionScreen extends CelestialScreen {
                         xPos = RHS - 95 + xOffset;
                         yPos = LHS + 50 + i * 14;
 
-                        if (x >= xPos && x <= xPos + 93 && y >= yPos && y <= yPos + 12) {
+                        if (DrawableUtil.mouseIn(x, y, xPos, yPos, SIDE_BUTTON_WIDTH, SIDE_BUTTON_HEIGHT)) {
                             this.selectedStationOwner = satellite.type().ownershipData(satellite.config()).username();
                             clickHandled = true;
                         }
@@ -426,7 +421,7 @@ public class CelestialSelectionScreen extends CelestialScreen {
         boolean planetZoomedMoon = this.isZoomed() && this.isPlanet(this.selectedParent);
 
         // Top yellow button e.g. Sol
-        if (x >= xPos && x <= xPos + 93 && y >= yPos && y <= yPos + 12 && this.selectedParent != null) {
+        if (DrawableUtil.mouseIn(x, y, xPos, yPos, SIDE_BUTTON_WIDTH, SIDE_BUTTON_HEIGHT) && this.selectedParent != null) {
             if (this.selectedBody == null) {
                 this.preSelectZoom = this.zoom;
                 this.preSelectPosition = this.position;
@@ -454,7 +449,7 @@ public class CelestialSelectionScreen extends CelestialScreen {
         yPos += 22;
 
         // First blue button - normally the Selected Body (but it's the parent planet if this is a moon)
-        if (x >= xPos && x <= xPos + 93 && y >= yPos && y <= yPos + 12) {
+        if (DrawableUtil.mouseIn(x, y, xPos, yPos, SIDE_BUTTON_WIDTH, SIDE_BUTTON_HEIGHT)) {
             if (planetZoomedMoon) {
                 if (this.selectedBody == null) {
                     this.preSelectZoom = this.zoom;
@@ -512,7 +507,7 @@ public class CelestialSelectionScreen extends CelestialScreen {
 
     protected boolean testClicked(CelestialBody<?, ?> body, int xOffset, int yPos, double x, double y, boolean grandchild) {
         int xPos = this.borderSize + this.borderEdgeSize + 2 + xOffset;
-        if (x >= xPos && x <= xPos + 93 && y >= yPos && y <= yPos + 12) {
+        if (DrawableUtil.mouseIn(x, y, xPos, yPos, SIDE_BUTTON_WIDTH, SIDE_BUTTON_HEIGHT)) {
             if (this.selectedBody != body || !this.isZoomed()) {
                 if (this.selectedBody == null) {
                     this.preSelectZoom = this.zoom;
@@ -827,7 +822,7 @@ public class CelestialSelectionScreen extends CelestialScreen {
                 int color = validInputMaterials ? GREEN1 : RED;
 
                 createSpaceStationButtonY = backgroundY + 1;
-                if (!this.mapMode && mousePosX >= x && mousePosX < RHS - 2 && mousePosY >= createSpaceStationButtonY && mousePosY < createSpaceStationButtonY + CREATE_SS_PANEL_BUTTON_HEIGHT) {
+                if (!this.mapMode && DrawableUtil.mouseIn(mousePosX, mousePosY, x, createSpaceStationButtonY, CREATE_SS_PANEL_BUTTON_WIDTH, CREATE_SS_PANEL_BUTTON_HEIGHT)) {
                     texture.blit(x, createSpaceStationButtonY, CREATE_SS_PANEL_BUTTON_WIDTH, CREATE_SS_PANEL_BUTTON_HEIGHT, CREATE_SS_PANEL_BUTTON_U, CREATE_SS_PANEL_BUTTON_V, color);
                 }
 
