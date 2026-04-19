@@ -906,8 +906,8 @@ public class CelestialSelectionScreen extends CelestialScreen {
             } else {
                 color = FastColor.ARGB32.color((int) (scale / 95.0F) * 255, (int) ((0.6F + brightness) * 255), 0, 0);
             }
-            texture.blit(3 + xOffset, yOffsetBase + yOffset + 1, 86, 10, SIDE_BUTTON_GRADIENT_U, SIDE_BUTTON_GRADIENT_V, SIDE_BUTTON_GRADIENT_WIDTH, SIDE_BUTTON_GRADIENTn_HEIGHT, color);
-            texture.blit(2 + xOffset, yOffsetBase + yOffset, 93, 12, SIDE_BUTTON_U, SIDE_BUTTON_V, SIDE_BUTTON_WIDTH, SIDE_BUTTON_HEIGHT, FastColor.ARGB32.color((int) ((scale / 95.0F) * 255), (int) ((3 * brightness) * 255), (int) ((0.6F + 2 * brightness) * 255), 255));
+            texture.blit(3 + xOffset, yOffsetBase + yOffset + 1, SIDE_BUTTON_GRADIENT_WIDTH, SIDE_BUTTON_HEIGHT - 2, SIDE_BUTTON_GRADIENT_U, SIDE_BUTTON_GRADIENT_V, color);
+            texture.blit(2 + xOffset, yOffsetBase + yOffset, SIDE_BUTTON_WIDTH, SIDE_BUTTON_HEIGHT, SIDE_BUTTON_U, SIDE_BUTTON_V, FastColor.ARGB32.color((int) ((scale / 95.0F) * 255), (int) ((3 * brightness) * 255), (int) ((0.6F + 2 * brightness) * 255), 255));
 
             if (scale > 0) {
                 color = 0xe0e0e0;
