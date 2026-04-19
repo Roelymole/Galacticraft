@@ -572,33 +572,33 @@ public class CelestialSelectionScreen extends CelestialScreen {
         try (Graphics graphics = Graphics.managed(gui, this.font)) {
             try (Graphics.TextureColor texture = graphics.textureColor(CELESTIAL_SELECTION)) {
                 // Catalog:
-                texture.blit(LHS, LHS, 74, 11, CATALOG_U, CATALOG_V, CATALOG_WIDTH, CATALOG_HEIGHT, BLUE);
+                texture.blit(LHS, LHS, CATALOG_WIDTH, CATALOG_HEIGHT, CATALOG_U, CATALOG_V, BLUE);
                 texture.drawCenteredText(Component.translatable(Translations.CelestialSelection.CATALOG), LHS + 40, LHS + 1, WHITE);
 
                 // Catalog wedge:
-                texture.blit(LHS + 4, LHS, 83, 12, CATALOG_BACKING_U, CATALOG_BACKING_V, CATALOG_BACKING_WIDTH, CATALOG_BACKING_HEIGHT, BLUE);
+                texture.blit(LHS + 4, LHS, CATALOG_BACKING_WIDTH, CATALOG_BACKING_HEIGHT, CATALOG_BACKING_U, CATALOG_BACKING_V, BLUE);
 
-                int scale = (int) Math.min(95, this.ticksSinceMenuOpenF * 12.0F);
+                int scale = (int) Math.min(PARENT_LABEL_WIDTH, this.ticksSinceMenuOpenF * 12.0F);
                 boolean planetZoomedNotMoon = this.isZoomed() && !(this.isGrandchildBody(this.selectedParent));
 
                 // Parent frame:
-                texture.blit(LHS - 95 + scale, LHS + 12, 95, 41, PARENT_LABEL_U, PARENT_LABEL_V, PARENT_LABEL_WIDTH, PARENT_LABEL_HEIGHT, BLUE);
-                texture.drawText(planetZoomedNotMoon ? this.selectedBody.name() : this.parentName(), LHS + 9 - 95 + scale, LHS + 34, WHITE, false);
+                texture.blit(LHS - PARENT_LABEL_WIDTH + scale, LHS + 12, PARENT_LABEL_WIDTH, PARENT_LABEL_HEIGHT, PARENT_LABEL_U, PARENT_LABEL_V, BLUE);
+                texture.drawText(planetZoomedNotMoon ? this.selectedBody.name() : this.parentName(), LHS + 9 - PARENT_LABEL_WIDTH + scale, LHS + 34, WHITE, false);
 
                 // Grandparent frame:
-                texture.blit(LHS + 2 - 95 + scale, LHS + 14, 93, 17, GRANDPARENT_LABEL_U, GRANDPARENT_LABEL_V, GRANDPARENT_LABEL_WIDTH, GRANDPARENT_LABEL_HEIGHT, YELLOW);
+                texture.blit(LHS - GRANDPARENT_LABEL_WIDTH + scale, LHS + 14, GRANDPARENT_LABEL_WIDTH, GRANDPARENT_LABEL_HEIGHT, GRANDPARENT_LABEL_U, GRANDPARENT_LABEL_V, YELLOW);
                 if (this.isZoomed() && this.selectedBody == this.celestialBodies.get(SOL)) {
                     text = this.grandparentName();
                 } else {
                     text = planetZoomedNotMoon ? this.parentName() : this.grandparentName();
                 }
-                texture.drawText(text, LHS + 7 - 95 + scale, LHS + 16, GREY3, false);
+                texture.drawText(text, LHS - GRANDPARENT_LABEL_WIDTH + 5 + scale, LHS + 16, GREY3, false);
 
                 List<CelestialBody<?, ?>> children = this.getChildren(/*planetZoomedNotMoon*/this.isZoomed() ? this.selectedBody : this.celestialBodies.get(SOL));
                 this.drawChildButtons(texture, children, 0, 0, true);
 
                 if (this.mapMode) {
-                    texture.blit(RHS - 74, LHS, 74, 11, TOP_RIGHT_ACTION_BUTTON_U + TOP_RIGHT_ACTION_BUTTON_WIDTH, TOP_RIGHT_ACTION_BUTTON_V, -TOP_RIGHT_ACTION_BUTTON_WIDTH, TOP_RIGHT_ACTION_BUTTON_HEIGHT, RED);
+                    texture.blit(RHS - TOP_RIGHT_ACTION_BUTTON_WIDTH, LHS, TOP_RIGHT_ACTION_BUTTON_WIDTH, TOP_RIGHT_ACTION_BUTTON_HEIGHT, TOP_RIGHT_ACTION_BUTTON_U + TOP_RIGHT_ACTION_BUTTON_WIDTH, TOP_RIGHT_ACTION_BUTTON_V, -TOP_RIGHT_ACTION_BUTTON_WIDTH, TOP_RIGHT_ACTION_BUTTON_HEIGHT, RED);
                     texture.drawCenteredText(Component.translatable(Translations.CelestialSelection.EXIT), RHS - 40, LHS + 1, WHITE, false);
                 }
             }
@@ -627,7 +627,7 @@ public class CelestialSelectionScreen extends CelestialScreen {
                             color = GREEN;
                         }
                     }
-                    texture.blit(this.width / 2 - 47, LHS, 94, 11, TOPBAR_U, TOPBAR_V, TOPBAR_WIDTH, TOPBAR_HEIGHT, color);
+                    texture.blit(this.width / 2 - 47, LHS, TOPBAR_WIDTH, TOPBAR_HEIGHT - 1, TOPBAR_U, TOPBAR_V, TOPBAR_WIDTH, TOPBAR_HEIGHT, color);
 
                     if (this.selectedBody.type() instanceof Tiered tiered && tiered.accessWeight(this.selectedBody.config()) >= 0 && !this.isSatellite(this.selectedBody)) {
                         boolean canReach;
@@ -658,7 +658,7 @@ public class CelestialSelectionScreen extends CelestialScreen {
                             color = GREEN;
                         }
 
-                        texture.blit(RHS - 74, LHS, 74, 11, TOP_RIGHT_ACTION_BUTTON_U + TOP_RIGHT_ACTION_BUTTON_WIDTH, TOP_RIGHT_ACTION_BUTTON_V, -TOP_RIGHT_ACTION_BUTTON_WIDTH, TOP_RIGHT_ACTION_BUTTON_HEIGHT, color);
+                        texture.blit(RHS - TOP_RIGHT_ACTION_BUTTON_WIDTH, LHS, TOP_RIGHT_ACTION_BUTTON_WIDTH, TOP_RIGHT_ACTION_BUTTON_HEIGHT, TOP_RIGHT_ACTION_BUTTON_U + TOP_RIGHT_ACTION_BUTTON_WIDTH, TOP_RIGHT_ACTION_BUTTON_V, -TOP_RIGHT_ACTION_BUTTON_WIDTH, TOP_RIGHT_ACTION_BUTTON_HEIGHT, color);
                         text = Component.translatable(Translations.CelestialSelection.LAUNCH);
                         texture.drawCenteredText(text, RHS - 40, LHS + 2, WHITE, false);
                     }
@@ -672,7 +672,7 @@ public class CelestialSelectionScreen extends CelestialScreen {
                             this.zoomTooltipPos = sliderPos;
                         }
 
-                        texture.blit(RHS - 182, this.height - this.borderSize - this.borderEdgeSize - sliderPos, 83, 38, ZOOM_INFO_TAB_U + ZOOM_INFO_TAB_WIDTH, ZOOM_INFO_TAB_V, -ZOOM_INFO_TAB_WIDTH, ZOOM_INFO_TAB_HEIGHT, BLUE);
+                        texture.blit(RHS - 182, this.height - this.borderSize - this.borderEdgeSize - sliderPos, ZOOM_INFO_TAB_WIDTH, ZOOM_INFO_TAB_HEIGHT, ZOOM_INFO_TAB_U + ZOOM_INFO_TAB_WIDTH, ZOOM_INFO_TAB_V, -ZOOM_INFO_TAB_WIDTH, ZOOM_INFO_TAB_HEIGHT, BLUE);
 
                         boolean flag0 = !this.getVisibleSatellitesForCelestialBody(this.selectedBody).isEmpty();
                         boolean flag1 = this.isPlanet(this.selectedBody) && !this.getChildren(this.selectedBody).isEmpty();
@@ -751,7 +751,7 @@ public class CelestialSelectionScreen extends CelestialScreen {
                     String username = config.getOwnershipData().username();
                     int xOffset = username.equalsIgnoreCase(this.selectedStationOwner) ? -5 : 0;
 
-                    texture.blit(RHS - 95 + xOffset, LHS + 50 + i * 14, 93, 12, SIDE_BUTTON_U + SIDE_BUTTON_WIDTH, SIDE_BUTTON_V, -SIDE_BUTTON_WIDTH, SIDE_BUTTON_HEIGHT, BLUE);
+                    texture.blit(RHS - SIDE_BUTTON_WIDTH - 2 + xOffset, LHS + 50 + i * 14, SIDE_BUTTON_WIDTH, SIDE_BUTTON_HEIGHT, SIDE_BUTTON_U + SIDE_BUTTON_WIDTH, SIDE_BUTTON_V, -SIDE_BUTTON_WIDTH, SIDE_BUTTON_HEIGHT, BLUE);
 
                     Component text;
                     String name = config.getCustomName();
