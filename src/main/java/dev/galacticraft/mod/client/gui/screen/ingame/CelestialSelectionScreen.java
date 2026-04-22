@@ -35,21 +35,20 @@ import dev.galacticraft.api.universe.celestialbody.landable.Landable;
 import dev.galacticraft.api.universe.celestialbody.satellite.Orbitable;
 import dev.galacticraft.impl.universe.celestialbody.type.SatelliteType;
 import dev.galacticraft.impl.universe.position.config.SatelliteConfig;
+import dev.galacticraft.mod.client.gui.widget.RenameSatelliteOverlay;
 import dev.galacticraft.mod.client.util.Graphics;
 import dev.galacticraft.mod.network.c2s.PlanetTeleportPayload;
 import dev.galacticraft.mod.network.c2s.SatelliteCreationPayload;
-import dev.galacticraft.mod.network.c2s.SatelliteUpdatePayload;
 import dev.galacticraft.mod.util.DrawableUtil;
 import dev.galacticraft.mod.util.Translations;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
-import net.minecraft.util.StringUtil;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import org.jetbrains.annotations.Nullable;
@@ -72,12 +71,12 @@ public class CelestialSelectionScreen extends CelestialScreen {
     protected final CelestialBody<?, ?> fromBody;
     public final boolean canCreateStations;
 
+    private final RenameSatelliteOverlay overlay = new RenameSatelliteOverlay();
+
     protected int createSpaceStationButtonY;
     protected int zoomTooltipPos = 0;
     protected String selectedStationOwner = "";
     protected int spaceStationListOffset = 0;
-    protected boolean renamingSpaceStation;
-    protected String renamingString = "";
 
     public CelestialSelectionScreen(boolean mapMode, @Nullable RocketData data, boolean canCreateStations, CelestialBody<?, ?> fromBody) {
         super(Component.empty());
@@ -95,6 +94,14 @@ public class CelestialSelectionScreen extends CelestialScreen {
         this.LHS = this.borderSize + this.borderEdgeSize;
         this.RHS = this.width - this.LHS;
         this.BOT = this.height - this.LHS;
+
+        this.overlay.resize(this.minecraft, width, height);
+    }
+
+    @Override
+    public void resize(Minecraft minecraft, int width, int height) {
+        super.resize(minecraft, width, height);
+        this.overlay.resize(minecraft, width, height);
     }
 
     protected Component grandparentName() {
@@ -141,35 +148,8 @@ public class CelestialSelectionScreen extends CelestialScreen {
 
     @Override
     public boolean keyPressed(int key, int scanCode, int modifiers) {
-        if (this.renamingSpaceStation) {
-            if (key == GLFW.GLFW_KEY_BACKSPACE) {
-                if (this.renamingString != null && !this.renamingString.isEmpty()) {
-                    String toBeParsed = this.renamingString.substring(0, this.renamingString.length() - 1);
-
-                    if (this.isValid(toBeParsed)) {
-                        this.renamingString = toBeParsed;
-//                        this.timeBackspacePressed = System.currentTimeMillis();
-                    } else {
-                        this.renamingString = "";
-                    }
-                }
-
-                return true;
-            } else if (Screen.isPaste(key)) {
-                assert this.minecraft != null;
-                String pastestring = this.minecraft.keyboardHandler.getClipboard();
-
-                if (pastestring.isEmpty()) {
-                    return false;
-                }
-
-                if (this.isValid(this.renamingString + pastestring)) {
-                    this.renamingString = this.renamingString + pastestring;
-                    this.renamingString = this.renamingString.substring(0, Math.min(this.renamingString.length(), MAX_SPACE_STATION_NAME_LENGTH));
-                }
-
-                return true;
-            }
+        if (this.overlay.isVisible()) {
+            return this.overlay.keyPressed(key, scanCode, modifiers);
         } else if (key == GLFW.GLFW_KEY_ENTER) {
             // Keyboard shortcut - teleport to dimension by pressing 'Enter'
             this.teleportToSelectedBody();
@@ -181,17 +161,11 @@ public class CelestialSelectionScreen extends CelestialScreen {
 
     @Override
     public boolean charTyped(char character, int modifiers) {
-        if (this.renamingSpaceStation && StringUtil.isAllowedChatCharacter(character)) {
-            this.renamingString = this.renamingString + character;
-            this.renamingString = this.renamingString.substring(0, Math.min(this.renamingString.length(), MAX_SPACE_STATION_NAME_LENGTH));
-            return true;
+        if (this.overlay.isVisible()) {
+            return this.overlay.charTyped(character, modifiers);
         }
 
         return super.charTyped(character, modifiers);
-    }
-
-    public boolean isValid(String string) {
-        return !string.isEmpty() && StringUtil.isAllowedChatCharacter(string.charAt(string.length() - 1));
     }
 
     protected boolean canCreateSpaceStation(CelestialBody<?, ?> atBody) {
@@ -265,6 +239,10 @@ public class CelestialSelectionScreen extends CelestialScreen {
 
     @Override
     public boolean mouseClicked(double x, double y, int button) {
+        if (this.overlay.isVisible()) {
+            return this.overlay.mouseClicked(x, y, button);
+        }
+
         boolean clickHandled = false;
 
         if (this.selectedBody != null && DrawableUtil.mouseIn(x, y, LHS, LHS, 88, 13)) {
@@ -315,88 +293,69 @@ public class CelestialSelectionScreen extends CelestialScreen {
         }
 
         if (this.isSatellite(this.selectedBody)) {
-            if (this.renamingSpaceStation) {
-                int renamingX = this.width / 2 - 90;
-                int renamingY = this.height / 2 - 38;
-                if (DrawableUtil.mouseIn(x, y, renamingX, renamingY, 180, 76)) {
-                    if (DrawableUtil.mouseIn(x, y, renamingX + 17, renamingY + 59, 72, 12)) {
-                        // Apply
-                        String strName = this.minecraft.player.getName().getString();
-                        CelestialBody<SatelliteConfig, SatelliteType> selectedSatellite = (CelestialBody<SatelliteConfig, SatelliteType>) this.selectedBody;
-                        selectedSatellite.type().setCustomName(this.renamingString, selectedSatellite.config());
-                        ClientPlayNetworking.send(new SatelliteUpdatePayload(selectedSatellite.config()));
-                        this.renamingSpaceStation = false;
-                    } else if (DrawableUtil.mouseIn(x, y, renamingX + 90, renamingY + 59, 72, 12)) {
-                        // Cancel
-                        this.renamingSpaceStation = false;
-                    }
-                    clickHandled = true;
-                }
-            } else {
-                if (DrawableUtil.mouseIn(x, y, width / 2 - 47, LHS, 94, 11)) {
-                    if (!this.selectedStationOwner.isEmpty()) {
-                        assert this.minecraft != null;
-                        if (this.selectedStationOwner.equalsIgnoreCase(this.minecraft.player.getName().getString())) {
-                            this.renamingSpaceStation = true;
-                            this.renamingString = null;
-                            clickHandled = true;
-                        }
+            CelestialBody<SatelliteConfig, SatelliteType> selectedSatellite = (CelestialBody<SatelliteConfig, SatelliteType>) this.selectedBody;
+
+            if (DrawableUtil.mouseIn(x, y, width / 2 - 47, LHS, 94, 11)) {
+                if (!this.selectedStationOwner.isEmpty()) {
+                    assert this.minecraft != null;
+                    if (this.selectedStationOwner.equalsIgnoreCase(this.minecraft.player.getName().getString())) {
+                        this.overlay.renameSatellite(selectedSatellite);
+                        clickHandled = true;
                     }
                 }
+            }
 
-                CelestialBody<SatelliteConfig, SatelliteType> selectedSatellite = (CelestialBody<SatelliteConfig, SatelliteType>) this.selectedBody;
-                List<CelestialBody<SatelliteConfig, SatelliteType>> visibleSatellites = this.getVisibleSatellitesForCelestialBody(selectedSatellite.parentValue(this.celestialBodies));
-                int stationListSize = visibleSatellites.size();
-                int max = Math.min((this.height / 2) / 14, stationListSize);
+            List<CelestialBody<SatelliteConfig, SatelliteType>> visibleSatellites = this.getVisibleSatellitesForCelestialBody(selectedSatellite.parentValue(this.celestialBodies));
+            int stationListSize = visibleSatellites.size();
+            int max = Math.min((this.height / 2) / 14, stationListSize);
 
-                int xPos;
-                int yPos;
+            int xPos;
+            int yPos;
 
-                // Up button
-                xPos = RHS - 85;
-                yPos = LHS + 45;
+            // Up button
+            xPos = RHS - 85;
+            yPos = LHS + 45;
 
-                if (DrawableUtil.mouseIn(x, y, xPos, yPos, 61, 4)) {
-                    if (this.spaceStationListOffset > 0) {
-                        this.spaceStationListOffset--;
-                    }
-                    clickHandled = true;
+            if (DrawableUtil.mouseIn(x, y, xPos, yPos, 61, 4)) {
+                if (this.spaceStationListOffset > 0) {
+                    this.spaceStationListOffset--;
                 }
+                clickHandled = true;
+            }
 
-                // Down button
-                xPos = RHS - 85;
-                yPos = LHS + 49 + max * 14;
+            // Down button
+            xPos = RHS - 85;
+            yPos = LHS + 49 + max * 14;
 
-                if (DrawableUtil.mouseIn(x, y, xPos, yPos, 61, 4)) {
-                    if (max + this.spaceStationListOffset < stationListSize) {
-                        this.spaceStationListOffset++;
-                    }
-                    clickHandled = true;
+            if (DrawableUtil.mouseIn(x, y, xPos, yPos, 61, 4)) {
+                if (max + this.spaceStationListOffset < stationListSize) {
+                    this.spaceStationListOffset++;
                 }
+                clickHandled = true;
+            }
 
-                int i = 0;
-                int j = 0;
-                for (CelestialBody<SatelliteConfig, SatelliteType> satellite : visibleSatellites) {
-                    if (i >= max) break;
+            int i = 0;
+            int j = 0;
+            for (CelestialBody<SatelliteConfig, SatelliteType> satellite : visibleSatellites) {
+                if (i >= max) break;
 
-                    if (j >= this.spaceStationListOffset) {
-                        int xOffset = 0;
+                if (j >= this.spaceStationListOffset) {
+                    int xOffset = 0;
 
-                        if (satellite.type().ownershipData(satellite.config()).username().equalsIgnoreCase(this.selectedStationOwner)) {
-                            xOffset -= 5;
-                        }
-
-                        xPos = RHS - 95 + xOffset;
-                        yPos = LHS + 50 + i * 14;
-
-                        if (DrawableUtil.mouseIn(x, y, xPos, yPos, SIDE_BUTTON_WIDTH, SIDE_BUTTON_HEIGHT)) {
-                            this.selectedStationOwner = satellite.type().ownershipData(satellite.config()).username();
-                            clickHandled = true;
-                        }
-                        i++;
+                    if (satellite.type().ownershipData(satellite.config()).username().equalsIgnoreCase(this.selectedStationOwner)) {
+                        xOffset -= 5;
                     }
-                    j++;
+
+                    xPos = RHS - 95 + xOffset;
+                    yPos = LHS + 50 + i * 14;
+
+                    if (DrawableUtil.mouseIn(x, y, xPos, yPos, SIDE_BUTTON_WIDTH, SIDE_BUTTON_HEIGHT)) {
+                        this.selectedStationOwner = satellite.type().ownershipData(satellite.config()).username();
+                        clickHandled = true;
+                    }
+                    i++;
                 }
+                j++;
             }
         }
 
@@ -535,8 +494,8 @@ public class CelestialSelectionScreen extends CelestialScreen {
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
         super.render(graphics, mouseX, mouseY, delta);
-
         this.drawButtons(graphics, mouseX, mouseY);
+        this.overlay.render(graphics, mouseX, mouseY, delta);
     }
 
     @Override
@@ -664,32 +623,6 @@ public class CelestialSelectionScreen extends CelestialScreen {
                         } else {
                             texture.drawSplitText(Component.translatable(Translations.CelestialSelection.CLICK_AGAIN), RHS - 182 + 41, this.height - this.borderSize - this.borderEdgeSize + 11 - sliderPos, 79, GREY5);
                         }
-                    }
-                }
-
-                if (this.isSatellite(this.selectedBody) && renamingSpaceStation) {
-                    try (Graphics.TextureColor texture = graphics.textureColor(CELESTIAL_SELECTION_1, 512, 512)) {
-                        texture.blit(this.width / 2 - 90, this.height / 2 - 38, 179, 67, 159, 0, 179, 67, BLUE);
-                        texture.blit(this.width / 2 - 90 + 4, this.height / 2 - 38 + 2, 171, 10, 159, 92, 171, 10, BLUE);
-                        texture.blit(this.width / 2 - 90 + 8, this.height / 2 - 38 + 18, 161, 13, 159, 67, 161, 13, BLUE);
-                        texture.blit(this.width / 2 - 90 + 17, this.height / 2 - 38 + 59, 72, 12, 159 + 72, 80, -72, 12, BLUE);
-                        texture.blit(this.width / 2, this.height / 2 - 38 + 59, 72, 12, 159, 80, 72, 12, BLUE);
-                        texture.drawCenteredText(Component.translatable(Translations.CelestialSelection.ASSIGN_NAME), this.width / 2, this.height / 2 - 35, WHITE);
-                        texture.drawCenteredText(Component.translatable(Translations.CelestialSelection.APPLY), this.width / 2 - 36, this.height / 2 + 23, WHITE);
-                        texture.drawCenteredText(Component.translatable(Translations.CelestialSelection.CANCEL), this.width / 2 + 36, this.height / 2 + 23, WHITE);
-
-                        if (this.renamingString == null) {
-                            CelestialBody<SatelliteConfig, SatelliteType> selectedSatellite = (CelestialBody<SatelliteConfig, SatelliteType>) this.selectedBody;
-                            String playerName = this.minecraft.player.getName().getString();
-                            this.renamingString = selectedSatellite.type().getCustomName(selectedSatellite.config());
-                        }
-
-                        text = Component.literal(this.renamingString);
-                        Component underscore = text.copy().append("_");
-                        if ((int) (this.ticksSinceMenuOpenF / 10) % 2 == 0) {
-                            text = underscore;
-                        }
-                        texture.drawText(text, this.width / 2 - this.font.width(underscore) / 2, this.height / 2 - 17, WHITE, false);
                     }
                 }
             }
