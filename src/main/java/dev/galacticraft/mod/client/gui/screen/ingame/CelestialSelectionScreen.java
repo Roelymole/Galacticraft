@@ -97,11 +97,6 @@ public class CelestialSelectionScreen extends CelestialScreen {
         this.BOT = this.height - this.LHS;
     }
 
-    @Override
-    public void onClose() {
-        super.onClose();
-    }
-
     protected Component grandparentName() {
         CelestialBody<?, ?> body = this.selectedBody;
         if (body == null || body == this.celestialBodies.get(SOL)) {
@@ -266,16 +261,6 @@ public class CelestialSelectionScreen extends CelestialScreen {
                 }
             }
         }
-    }
-
-    @Override
-    public boolean mouseDragged(double x, double y, int activeButton, double dragX, double dragY) {
-        return super.mouseDragged(x, y, activeButton, dragX, dragY);
-    }
-
-    @Override
-    public boolean mouseReleased(double x, double y, int button) {
-        return super.mouseReleased(x, y, button);
     }
 
     @Override
@@ -546,12 +531,6 @@ public class CelestialSelectionScreen extends CelestialScreen {
         }
         return false;
     }
-
-    @Override
-    public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
-        return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
-    }
-
 
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
