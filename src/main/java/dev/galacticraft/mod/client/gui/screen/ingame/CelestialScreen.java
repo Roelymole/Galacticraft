@@ -252,7 +252,7 @@ public class CelestialScreen extends Screen implements ClientSatelliteAccessor.S
         this.translationX = 0.0F;
         this.translationY = 0.0F;
         if (this.minecraft.player != null && this.minecraft.player.getY() >= REENTRY_HEIGHT) {
-            this.minecraft.player.setDeltaMovement(new Vec3(0.0D, 0.0D, 0.0D));
+            this.minecraft.player.setDeltaMovement(Vec3.ZERO);
         }
         this.keyboardTranslation();
     }
